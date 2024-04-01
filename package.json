@@ -1,0 +1,20 @@
+{
+  "name": "rhythm-editor",
+  "module": "index.ts",
+  "type": "module",
+  "devDependencies": {
+    "@types/express": "^4.17.21",
+    "@types/express-session": "^1.18.0",
+    "bun-types": "latest",
+    "nodemon": "^3.1.0"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "body-parser": "^1.20.2",
+    "ejs": "^3.1.9",
+    "express": "^4.19.2",
+    "express-session": "^1.18.0"
+  }
+}

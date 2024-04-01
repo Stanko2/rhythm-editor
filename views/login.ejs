@@ -1,0 +1,36 @@
+<form class="form container" id="loginForm" action="/login" method="post">
+    <div class="row g-3 align-items-center">
+        <div class="col-auto">
+          <label for="inputMeno" class="col-form-label">Meno družinky</label>
+        </div>
+        <div class="col-auto">
+          <input type="text" name="meno" id="inputMeno" class="form-control">
+        </div>
+    </div>
+    <div class="row g-3 align-items-center">
+        <div class="col-auto">
+          <label for="inputPassword" class="col-form-label">Heslo</label>
+        </div>
+        <div class="col-auto">
+          <input type="password" name="heslo" id="inputPassword" class="form-control">
+        </div>
+    </div>
+    <button type="submit" class="btn btn-primary">Prihlásiť</button>
+</form>
+
+<script defer>
+    // const form = document.getElementById("loginForm");
+    // form.addEventListener('submit', (e)=> {
+    //     e.preventDefault()
+    //     const data = new FormData(e.target)
+    //     const obj = Object.fromEntries(data.entries())
+    //     console.log(obj);
+    //     fetch('/login', {
+    //         method: 'POST',
+    //         body: JSON.stringify(obj),
+    //         headers: {
+    //             'Content-Type': 'application/json'
+    //         }
+    //     })
+    // })
+</script>

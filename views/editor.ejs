@@ -1,0 +1,25 @@
+<script defer src="/game.js"></script>
+    
+<div id="game" class="row">
+    <div class="col-4">
+        <ul class="list-group">
+            <% levels.forEach(level => { %>
+                <a class="list-group-item list-group-item-action" href="/editor/<%= level %> "><%- level %> </a>
+            <% }) %>
+        </ul>
+    </div>
+    <div class="col-8">
+        <h1>EDITOR</h1>
+        <p><%- zadanie %> </p>
+        <button class="btn btn-primary" id="play">Zacat</button>
+        <button class="btn btn-danger d-none" id="stop">Stop</button>
+        <button class="btn btn-success d-none" id="submit">Submit</button>
+        <div class="card">
+            <pre><code class="language-python" id="code"></code></pre>
+        </div>
+    </div>
+</div>
+
+<script>
+    var levelData = <%- data %>
+</script>
