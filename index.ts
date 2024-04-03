@@ -13,7 +13,9 @@ app.use(express.urlencoded())
 
 app.use(session({
     secret: 'secret editor',
-    unset: 'destroy'
+    unset: 'destroy',
+    saveUninitialized: true,
+    resave: true
 }))
 
 app.use('/login', loginRouter)

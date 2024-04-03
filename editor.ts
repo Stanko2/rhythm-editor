@@ -15,7 +15,8 @@ const levels: Record<string, Level> = {}
 const zadania: Record<string, string> = {}
 
 router.get('/', (req,res) => {
-    res.redirect('/editor/level1')
+    const firstLevel = Object.keys(levels)[0]
+    res.redirect('/editor/' + firstLevel)
 })
 
 router.get('/:lid', async (req, res) => {

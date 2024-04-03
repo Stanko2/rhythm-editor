@@ -9,11 +9,64 @@ playBtn.onclick = play
 stopBtn.onclick = stop
 submitBtn.onclick = submit
 
+
+function mapKeyPressToActualCharacter(isShiftKey, characterCode) {
+    if (characterCode === 13){
+        return "\n"
+    }
+
+    if ( characterCode === 27 || characterCode === 8 || characterCode === 9 || characterCode === 20 || characterCode === 16 || characterCode === 17 || characterCode === 91 || characterCode === 92 || characterCode === 18 ) {
+        return false;
+    }
+    if (typeof isShiftKey != "boolean" || typeof characterCode != "number") {
+        return false;
+    }
+    var characterMap = [];
+    characterMap[192] = "~";
+    characterMap[49] = "!";
+    characterMap[50] = "@";
+    characterMap[51] = "#";
+    characterMap[52] = "$";
+    characterMap[53] = "%";
+    characterMap[54] = "^";
+    characterMap[55] = "&";
+    characterMap[56] = "*";
+    characterMap[57] = "(";
+    characterMap[48] = ")";
+    characterMap[109] = "_";
+    characterMap[107] = "+";
+    characterMap[219] = "{";
+    characterMap[221] = "}";
+    characterMap[220] = "|";
+    characterMap[59] = ":";
+    characterMap[222] = "\"";
+    characterMap[188] = "<";
+    characterMap[190] = ">";
+    characterMap[191] = "?";
+    characterMap[32] = " ";
+
+    var character = "";
+    if (isShiftKey) {
+        if ( characterCode >= 65 && characterCode <= 90 ) {
+            character = String.fromCharCode(characterCode);
+        } else {
+            character = characterMap[characterCode];
+        }
+    } else {
+        if ( characterCode >= 65 && characterCode <= 90 ) {
+            character = String.fromCharCode(characterCode).toLowerCase();
+        } else {
+            character = String.fromCharCode(characterCode);
+        }
+    }
+    return character;
+}
+
 function blink() {
     root.style.background = 'black'
     root.style.transition = 'none'
     setTimeout(() => {
-        root.style.transition = 'all 100ms ease-out'
+        root.style.transition = 'all 200ms ease-out'
         root.style.background = 'white'
     }, 80);
 }
@@ -33,23 +86,29 @@ function play() {
     player.addEventListener('beat', ()=> {
         blink()
     })
-
+    let lastBeatPressed = -1
     document.onkeydown = (e) => {
         const pos = player.getPositionInBeats()
-        const offset = pos - Math.round(pos)
-        console.log(offset, pos);
-        const s = String.fromCharCode(e.keyCode)
-        if(Math.abs(offset) < 0.3) {
-            if(e.shiftKey)
-                program.innerText += s
-            else 
-                program.innerText += s.toLowerCase()
-            console.log(String.fromCharCode(e.keyCode));
+        const currBeat = Math.round(pos)
+
+        if(lastBeatPressed == currBeat) return
+        const offset = pos - currBeat
+        console.log(offset);
+        const s = mapKeyPressToActualCharacter(e.shiftKey, e.keyCode);
+        if(s === false || s == undefined) return
+        if(Math.abs(offset) < 0.2) { // tolerancia
+            // 0.5 - vzdy, nezalezi na rytme
+            // 0.4 - celkom ok, lahke - asi najvyssi upgrade
+            // 0.3 - take priemerne - da sa triafat vzdy
+            // 0.2 - da sa triafat tak ~70-80% - asi dobry base value
+            // <0.1 - takmer nikdy netrafis
+            program.innerText += s
         } else {
             program.innerText = program.innerText.slice(0, -1)
         }
         delete program.dataset.highlighted
         hljs.highlightAll();
+        lastBeatPressed = currBeat
     }
 }
 
@@ -75,9 +134,9 @@ function submit() {
 
 class Player extends EventTarget {
     getPositionInBeats() {
-        const songStart = this.start + this.song.firstOffset * 1000
-        const currentPosition = (performance.now() - songStart) / 1000
-        return currentPosition / (60 / this.song.bpm)
+        // const songStart = this.start + this.song.firstOffset * 1000
+        const currentPosition = this.audio.currentTime
+        return currentPosition / (60 / this.song.bpm) - 0.5
     }
 
     constructor(song) {
