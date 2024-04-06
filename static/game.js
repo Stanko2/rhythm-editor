@@ -70,6 +70,8 @@ function blink() {
         root.style.background = 'white'
     }, 80);
 }
+
+
 let playing  = false
 let player
 function play() {
@@ -83,6 +85,8 @@ function play() {
         firstOffset: levelData.firstOffset,
         link: levelData.song
     })
+    visualizer()
+
     player.addEventListener('beat', ()=> {
         blink()
     })
@@ -130,6 +134,51 @@ function submit() {
     console.log(program.innerText);
 
     stop();
+}
+
+
+function visualizer() {
+    const vis = document.getElementById('beats')
+    const width = vis.clientWidth
+    const beatDivs = []
+    const visSeconds = 3
+    const beatlength = 1 / (player.song.bpm / 60)
+    const beatWidth = (beatlength * 0.4) / ((player.song.bpm / 60) * visSeconds) * width
+
+
+    function createBeatDiv() {
+        const div = document.createElement('div')
+        div.classList.add('beat')
+        div.style.left = width + 'px'
+        div.style.width = beatWidth + 'px'
+        beatDivs.push(div)
+        vis.appendChild(div)
+    }
+
+    requestAnimationFrame(render)
+    let lastTime = 0
+    function render(time) {
+        const dt = time - lastTime
+        for (let i = 0; i < beatDivs.length; i++) {
+            const div = beatDivs[i]
+            const pos = parseInt(div.style.left.slice(0,-2))
+            if(pos < 0) {
+                beatDivs.splice(i, 1)
+                div.remove()
+                continue
+            }
+            const move = (dt / 1000) * width / visSeconds
+            div.style.left = (pos - move) + 'px'
+        }
+
+        lastTime = time
+        if(playing)
+            requestAnimationFrame(render)
+        else 
+            vis.replaceChildren();
+    }
+
+    player.addEventListener('beat', createBeatDiv)
 }
 
 class Player extends EventTarget {

@@ -1,6 +1,6 @@
 <script defer src="/game.js"></script>
     
-<div id="game" class="row">
+<div id="game" class="row container">
     <div class="col-4">
         <ul class="list-group">
             <% levels.forEach(level => { %>
@@ -10,12 +10,18 @@
     </div>
     <div class="col-8">
         <h1>EDITOR</h1>
+        <div class="visualizer">
+            <div class="currentTime"></div>
+            <div class="beats" id="beats">
+                <!-- <div class="beat" style="left: 100px;"></div> -->
+            </div>
+        </div>
         <p><%- zadanie %> </p>
         <button class="btn btn-primary" id="play">Zacat</button>
         <button class="btn btn-danger d-none" id="stop">Stop</button>
         <button class="btn btn-success d-none" id="submit">Submit</button>
         <div class="card">
-            <pre><code class="language-python" id="code"></code></pre>
+            <pre><code class="language-python" id="code"> </code></pre>
         </div>
     </div>
 </div>
@@ -23,3 +29,36 @@
 <script>
     var levelData = <%- data %>
 </script>
+
+<style>
+    .visualizer{
+        height: 2rem;
+        background-color: var(--secondary);
+        margin: 0;
+        box-sizing: content-box;
+        position: relative;
+        border: 1px solid black;
+    }
+    .row{
+        margin: auto;
+    }
+    .currentTime {
+        position: absolute;
+        background-color: red;
+        width: 3px;
+        height: 120%;
+        left: 30px;
+        top: -10%;
+    }
+    .beat{
+        height: 35px;
+        width: 50px;
+        background-color: blue;
+        position: absolute;
+    }
+    .beats {
+        position: relative;
+        display: flex;
+
+    }
+</style>
