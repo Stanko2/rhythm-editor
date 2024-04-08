@@ -4,6 +4,7 @@ const program = document.getElementById('code')
 const playBtn = document.getElementById('play')
 const stopBtn = document.getElementById('stop')
 const submitBtn = document.getElementById('submit')
+// const c = document.getElementById('c')
 
 playBtn.onclick = play
 stopBtn.onclick = stop
@@ -63,11 +64,11 @@ function mapKeyPressToActualCharacter(isShiftKey, characterCode) {
 }
 
 function blink() {
-    root.style.background = 'black'
-    root.style.transition = 'none'
+    c.style.opecity = 1
+    c.style.transition = 'none'
     setTimeout(() => {
-        root.style.transition = 'all 200ms ease-out'
-        root.style.background = 'white'
+        c.style.transition = 'all 200ms ease-out'
+        c.style.opecity = 0.5
     }, 80);
 }
 
@@ -94,22 +95,27 @@ function play() {
     document.onkeydown = (e) => {
         const pos = player.getPositionInBeats()
         const currBeat = Math.round(pos)
-
+        
         if(lastBeatPressed == currBeat) return
         const offset = pos - currBeat
         console.log(offset);
         const s = mapKeyPressToActualCharacter(e.shiftKey, e.keyCode);
-        if(s === false || s == undefined) return
-        if(Math.abs(offset) < 0.2) { // tolerancia
-            // 0.5 - vzdy, nezalezi na rytme
-            // 0.4 - celkom ok, lahke - asi najvyssi upgrade
-            // 0.3 - take priemerne - da sa triafat vzdy
-            // 0.2 - da sa triafat tak ~70-80% - asi dobry base value
-            // <0.1 - takmer nikdy netrafis
-            program.innerText += s
-        } else {
+        if(e.key == 'Backspace'){
             program.innerText = program.innerText.slice(0, -1)
+        } else {
+            if(s === false || s == undefined) return
+            if(Math.abs(offset) < 0.2) { // tolerancia
+                // 0.5 - vzdy, nezalezi na rytme
+                // 0.4 - celkom ok, lahke - asi najvyssi upgrade
+                // 0.3 - take priemerne - da sa triafat vzdy
+                // 0.2 - da sa triafat tak ~70-80% - asi dobry base value
+                // <0.1 - takmer nikdy netrafis
+                program.innerText += s
+            } else {
+                program.innerText = program.innerText.slice(0, -1)
+            }
         }
+        
         delete program.dataset.highlighted
         hljs.highlightAll();
         lastBeatPressed = currBeat

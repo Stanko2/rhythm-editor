@@ -1,5 +1,6 @@
 <script defer src="/game.js"></script>
-    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/1.0.0/anime.min.js"></script>
+<script defer src="/bgEffect.js"></script>
 <div id="game" class="row container">
     <div class="col-4">
         <ul class="list-group">
@@ -24,6 +25,7 @@
             <pre><code class="language-python" id="code"> </code></pre>
         </div>
     </div>
+    <canvas id="c"></canvas>
 </div>
 
 <script>
@@ -60,5 +62,15 @@
         position: relative;
         display: flex;
 
+    }
+    #c {
+        position: fixed;
+        z-index: -1;
+        width: 100vw;
+        height: 100vh;
+        top: 0;
+        left: 0;
+        opacity: 0.6;
+        padding: 0;
     }
 </style>

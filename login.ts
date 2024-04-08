@@ -1,16 +1,14 @@
 import { Router } from "express";
+import { db } from "./db";
 
 const router = Router({});
 
 
 router.post('/', async (req,res)=> {
-    if (req.body.meno == 'test' && req.body.heslo == 'test'){
-        // await new Promise<void>(resolve => req.session.regenerate(() => resolve))
-        req.session.user = req.body.meno
-        res.redirect('/editor')
-        // req.session.save(() => {
-        //     console.log(req.session.user);
-        // })
+    const user = await db.login(req.body.meno, req.body.heslo);
+    if (user) {
+        req.session.user = user
+        res.redirect(req.session.user.admin ? '/admin' : '/editor');
     } else {
         res.redirect('/')
     }

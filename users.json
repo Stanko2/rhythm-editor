@@ -1,0 +1,18 @@
+[
+    {
+        "name": "admin",
+        "password": "ahoj",
+        "admin": true
+    },
+    {
+        "name": "test",
+        "password": "ahoj",
+        "admin": false,
+        "coins": 100,
+        "upgrades": {
+            "tolerance": 0,
+            "visualizer": 0,
+            "deleteOnMiss": true
+        }
+    }
+]

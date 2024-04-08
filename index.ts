@@ -4,6 +4,8 @@ import session from 'express-session'
 import loginRouter from './login'
 import editorRouter from './editor'
 import shopRouter from './shop'
+import coinRouter from './coins'
+import { User } from './db'
 
 const app = express()
 app.set('view engine', 'ejs')
@@ -21,10 +23,11 @@ app.use(session({
 app.use('/login', loginRouter)
 app.use('/editor', editorRouter)
 app.use('/shop', shopRouter)
+app.use('/coins', coinRouter)
 
 declare module 'express-session' {
     interface SessionData {
-        user: string
+        user: User
     }
 }
 
@@ -33,10 +36,8 @@ app.listen(process.env.PORT ?? 3000,() => {
 })
 
 app.get('/', (req, res) => {
-    console.log(req.session.user);
-    
     if(req.session.user != undefined) {
-        res.redirect('/editor');
+        res.redirect(req.session.user.admin ? '/admin' : '/editor');
     } else {
         renderView(res, 'login', {user: null});
     }

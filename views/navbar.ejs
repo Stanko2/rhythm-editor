@@ -3,7 +3,7 @@
       <a class="navbar-brand" href="/editor">Rytmovy Editor</a>
       <ul class="navbar-nav">
         <li class="nav-item">
-          <strong class="nav-link"> 100 🪙</strong>
+          <strong class="nav-link" id="coins"><%= user?.coins %> 🪙</strong>
         </li>
         <li class="nav-item">
           <a class="nav-link <% if (view == 'editor') { %>
@@ -16,7 +16,7 @@
           <% } %>" href="/shop">Obchod</a>
         </li>
         <li class="nav-item">
-          <strong class="nav-link">👤 <%= user ?? 'odhlásený' %></strong>
+          <strong class="nav-link">👤 <%= user?.name ?? 'odhlásený' %></strong>
         </li>
     </ul>
   </div>
