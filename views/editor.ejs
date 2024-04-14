@@ -18,6 +18,11 @@
             </div>
         </div>
         <p><%- zadanie %> </p>
+        <% if (testOutput) { %>
+            <div class="alert" role="alert">
+                <%- testOutput.status %> 
+            </div>
+        <% } %>
         <button class="btn btn-primary" id="play">Zacat</button>
         <button class="btn btn-danger d-none" id="stop">Stop</button>
         <button class="btn btn-success d-none" id="submit">Submit</button>
@@ -29,7 +34,9 @@
 </div>
 
 <script>
-    var levelData = <%- data %>
+    var levelData = <%- data %>;
+
+    var upgrades = <%- user.upgrades %>;
 </script>
 
 <style>

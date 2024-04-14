@@ -2,6 +2,7 @@ import { Router } from "express";
 import { renderView } from "./util";
 import { readdir, readFile } from 'fs/promises'
 import path from 'path'
+import { test } from "./testovac";
 
 const router = Router()
 
@@ -37,8 +38,34 @@ router.get('/:lid', async (req, res) => {
         user: req.session.user, 
         levels: Object.keys(levels),
         zadanie: zadania[req.params.lid],
-        data: JSON.stringify(levels[req.params.lid])
+        data: JSON.stringify(levels[req.params.lid]),
+        testOutput: undefined
     });
+})
+
+router.post('/:lid/submit', async (req, res) => {
+    const user = req.session.user
+    if(user == undefined) {
+        res.redirect('/')
+        return
+    }
+    const lid = req.params.lid
+    if(levels[lid] == undefined) {
+        res.sendStatus(400)
+        return
+    }
+    const output = await test(req.body.program, user.name, levels[lid])
+    if(output.status == 'OK'){
+        // update completed levels
+    }
+
+    renderView(res, 'editor', {
+        user: req.session.user, 
+        levels: Object.keys(levels),
+        zadanie: zadania[req.params.lid],
+        data: JSON.stringify(levels[req.params.lid]),
+        testOutput: output
+    })
 })
 
 async function loadLevels() {
