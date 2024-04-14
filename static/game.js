@@ -148,15 +148,18 @@ function visualizer() {
     const width = vis.clientWidth
     const beatDivs = []
     const visSeconds = 3
-    const beatlength = 1 / (player.song.bpm / 60)
-    const beatWidth = (beatlength * 0.4) / ((player.song.bpm / 60) * visSeconds) * width
-
+    const tolerance = 0.2
+    const bps = player.song.bpm / 60
+    const beatLength = (width / visSeconds) / bps
+    const beatBarWidth = beatLength * (tolerance * 2)
 
     function createBeatDiv() {
         const div = document.createElement('div')
         div.classList.add('beat')
-        div.style.left = width + 'px'
-        div.style.width = beatWidth + 'px'
+        const beatsInAdvance = Math.ceil(visSeconds * (player.song.bpm / 60))
+        const appearWidth = beatsInAdvance * beatLength - (beatBarWidth/2) + 64
+        div.style.left = appearWidth + 'px'
+        div.style.width = beatBarWidth + 'px'
         beatDivs.push(div)
         vis.appendChild(div)
     }
