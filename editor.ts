@@ -5,10 +5,13 @@ import path from 'path'
 
 const router = Router()
 
-interface Level {
+export interface Level {
     song: string
     bpm: number
     firstOffset: number
+    tests: Record<string, string>
+    id: string
+    zadanie: string
 }
 
 const levels: Record<string, Level> = {}
@@ -42,10 +45,10 @@ async function loadLevels() {
     const p = path.join(__dirname, 'levels')
     const keys = await readdir(p)
     for (const level of keys) {
-        if(!level.endsWith('.html')) continue
-        const name = level.split('.')[0]
-        levels[name] = JSON.parse(await readFile(path.join(p, name+ '.json'), 'utf8'))        
-        zadania[name] = await readFile(path.join(p, level), 'utf8')
+        levels[level] = JSON.parse(await readFile(path.join(p, level, 'data.json'), 'utf-8'))
+        zadania[level] = await readFile(path.join(p, level, 'index.html'), 'utf-8')
+        levels[level].zadanie = zadania[level]
+        levels[level].id = level
     }
 
     console.log(`Loaded ${Object.keys(levels).length} levels`);
