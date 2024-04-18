@@ -7,7 +7,8 @@ export interface User {
     coins: number;
     upgrades: Upgrades;
     id: number;
-    admin: boolean
+    admin: boolean;
+    completedLevels: string[];
 }
 
 export interface Upgrades {

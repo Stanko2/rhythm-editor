@@ -64,11 +64,11 @@ function mapKeyPressToActualCharacter(isShiftKey, characterCode) {
 }
 
 function blink() {
-    c.style.opecity = 1
+    c.style.opacity = 1
     c.style.transition = 'none'
     setTimeout(() => {
         c.style.transition = 'all 200ms ease-out'
-        c.style.opecity = 0.5
+        c.style.opacity = 0.5
     }, 80);
 }
 
@@ -89,10 +89,12 @@ function play() {
     visualizer()
 
     player.addEventListener('beat', ()=> {
+        (new Audio('/click.mp3')).play()
         blink()
     })
     let lastBeatPressed = -1
     document.onkeydown = (e) => {
+        // (new Audio('/click.mp3')).play()
         const pos = player.getPositionInBeats()
         const currBeat = Math.round(pos)
         
@@ -104,7 +106,7 @@ function play() {
             program.innerText = program.innerText.slice(0, -1)
         } else {
             if(s === false || s == undefined) return
-            if(Math.abs(offset) < 0.2) { // tolerancia
+            if(Math.abs(offset) < 0.5) { // tolerancia
                 // 0.5 - vzdy, nezalezi na rytme
                 // 0.4 - celkom ok, lahke - asi najvyssi upgrade
                 // 0.3 - take priemerne - da sa triafat vzdy
@@ -136,8 +138,22 @@ function stop() {
     document.onkeydown = () => {}   
 }
 
-function submit() {
+async function submit() {
     console.log(program.innerText);
+    
+    const res = await fetch(location.href + '/submit', {
+        method: 'POST',
+        body: JSON.stringify({
+            program: program.innerText
+        }),
+        headers: {
+            'Content-Type': 'application/json'
+        },
+    })
+
+    const data = await res.json()
+
+    document.getElementById(data.status).classList.toggle('d-none')
 
     stop();
 }

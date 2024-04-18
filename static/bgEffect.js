@@ -39,7 +39,6 @@ function addClickListeners() {
   document.addEventListener("keydown", (e) =>{ 
     e.pageX = Math.random() * document.body.clientWidth
     e.pageY = Math.random() * document.body.clientHeight
-    console.log(e);
     handleEvent(e)
   });
 };

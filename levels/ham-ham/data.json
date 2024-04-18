@@ -1,6 +1,6 @@
 {
-    "bpm": 126,
-    "firstOffset": 0.67,
+    "bpm": 126.11,
+    "firstOffset": 0.07,
     "song": "/ham-ham-stajl.mp3",
     "tests": {
         "1.in": "1.out"

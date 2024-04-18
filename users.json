@@ -13,6 +13,7 @@
             "tolerance": 0,
             "visualizer": 0,
             "deleteOnMiss": true
-        }
+        },
+        "completedLevels": []
     }
 ]

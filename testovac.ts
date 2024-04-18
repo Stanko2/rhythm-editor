@@ -8,13 +8,14 @@ const TIME_LIMIT = 5000
 export async function test(submit: string, user: string, level: Level): Promise<TestOutput> {
     if(submit.match('import') != null)
         throw new Error('Imports are not allowed');
-
-    const programPath = path.join(__dirname, 'levels', level.id, 'submits', user + '.py')
+    const levelPath = path.join(__dirname, 'levels', level.id)
+    const programPath = path.join(levelPath, 'submits', user + '.py')
     fs.writeFile(programPath, submit);
 
     let out: TestOutput
+    const vstupy = path.join(levelPath, 'vstupy')
     for (const test of Object.keys(level.tests)) {
-        out = await testInput(programPath, test, level.tests[test])
+        out = await testInput(programPath, path.join(vstupy, test), path.join(vstupy, level.tests[test]))
         if(out.status != 'OK'){
             return out
         }
@@ -29,7 +30,7 @@ interface TestOutput {
 
 async function testInput(program: string, input: string, output: string): Promise<TestOutput> {
     return new Promise(async (resolve, reject)=> {
-        const p = spawn('python3 ' + program)
+        const p = spawn('python3', [ program ])
         p.on('error', reject)
         p.stdin.write(await fs.readFile(input))
         let out = ''

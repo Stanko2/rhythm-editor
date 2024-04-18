@@ -1,12 +1,6 @@
 <div class="container">
     <h1>Obchod</h1>
-    <form id="redeemform" class="form-inline">
-        <div class="input-group">
-            <input type="text" id="code" name="code" placeholder="Zadaj kód" class="form-control">
-            <input type="submit" class="btn btn-primary">
-        </div>
-    </form>
-    <hr>
+    
     <div class="row">
         <% for( let i = 0; i < upgrades.length; i++ ) { %>
             <div class="card col-4">
@@ -35,7 +29,15 @@
             </div>
         <% } %>
     </div>
-
+    <hr class="m-2">
+    <h2>Získaj peniaze</h2>
+    <form id="redeemform" class="form-inline">
+        <div class="input-group">
+            <input type="text" id="code" name="code" placeholder="Zadaj kód" class="form-control">
+            <input type="submit" class="btn btn-primary">
+        </div>
+    </form>
+    
     <script defer>
         const form = document.getElementById('redeemform')
         const coins = document.getElementById('coins')

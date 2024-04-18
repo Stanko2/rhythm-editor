@@ -3,6 +3,7 @@ import { renderView } from "./util";
 import { readdir, readFile } from 'fs/promises'
 import path from 'path'
 import { test } from "./testovac";
+import { db } from "./db";
 
 const router = Router()
 
@@ -54,18 +55,29 @@ router.post('/:lid/submit', async (req, res) => {
         res.sendStatus(400)
         return
     }
+    if(user.completedLevels.includes(lid)) {
+        res.status(400)
+        res.send({
+            err: 'level already completed'
+        })
+        return
+    }
     const output = await test(req.body.program, user.name, levels[lid])
+    
     if(output.status == 'OK'){
-        // update completed levels
+        user.completedLevels.push(lid)
+        await db.setUser(user);
     }
 
-    renderView(res, 'editor', {
-        user: req.session.user, 
-        levels: Object.keys(levels),
-        zadanie: zadania[req.params.lid],
-        data: JSON.stringify(levels[req.params.lid]),
-        testOutput: output
-    })
+    res.send(output)
+
+    // renderView(res, 'editor', {
+    //     user: req.session.user, 
+    //     levels: Object.keys(levels),
+    //     zadanie: zadania[req.params.lid],
+    //     data: JSON.stringify(levels[req.params.lid]),
+    //     testOutput: output
+    // })
 })
 
 async function loadLevels() {
