@@ -98,7 +98,6 @@ function play() {
         const pos = player.getPositionInBeats()
         const currBeat = Math.round(pos)
         
-        if(lastBeatPressed == currBeat) return
         const offset = pos - currBeat
         console.log(offset);
         const s = mapKeyPressToActualCharacter(e.shiftKey, e.keyCode);
@@ -106,13 +105,14 @@ function play() {
             program.innerText = program.innerText.slice(0, -1)
         } else {
             if(s === false || s == undefined) return
-            if(Math.abs(offset) < 0.5) { // tolerancia
+            if(Math.abs(offset) < 0.5 && lastBeatPressed != currBeat) { // tolerancia
                 // 0.5 - vzdy, nezalezi na rytme
                 // 0.4 - celkom ok, lahke - asi najvyssi upgrade
                 // 0.3 - take priemerne - da sa triafat vzdy
                 // 0.2 - da sa triafat tak ~70-80% - asi dobry base value
                 // <0.1 - takmer nikdy netrafis
                 program.innerText += s
+                lastBeatPressed = currBeat
             } else {
                 program.innerText = program.innerText.slice(0, -1)
             }
@@ -120,7 +120,6 @@ function play() {
         
         delete program.dataset.highlighted
         hljs.highlightAll();
-        lastBeatPressed = currBeat
     }
 }
 
