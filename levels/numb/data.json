@@ -1,0 +1,8 @@
+{
+    "bpm": 110, 
+    "firstOffset": 0.441,
+    "song": "/numb.mp3",
+    "tests": {
+        "1.in": "1.out"
+    }
+}

@@ -41,7 +41,9 @@ function mapKeyPressToActualCharacter(isShiftKey, characterCode) {
     characterMap[220] = "|";
     characterMap[59] = ":";
     characterMap[222] = "\"";
+    characterMap[187] = "+";
     characterMap[188] = "<";
+    characterMap[189] = "_";
     characterMap[190] = ">";
     characterMap[191] = "?";
     characterMap[32] = " ";
@@ -57,7 +59,47 @@ function mapKeyPressToActualCharacter(isShiftKey, characterCode) {
         if ( characterCode >= 65 && characterCode <= 90 ) {
             character = String.fromCharCode(characterCode).toLowerCase();
         } else {
-            character = String.fromCharCode(characterCode);
+            switch (characterCode) {
+                case 13:
+                    character = '\n '
+                    break
+                case 186:
+                    character = ';'
+                    break
+                case 187:
+                    character = '='
+                    break
+                case 188:
+                    character = ','
+                    break
+                case 189:
+                    character = '-'
+                    break
+                case 190:
+                    character = '.'
+                    break
+                case 191:
+                    character = '/'
+                    break
+                case 192:
+                    character = '`'
+                    break
+                case 219:
+                    character = '['
+                    break
+                case 220:
+                    character = '\\'
+                    break
+                case 221:
+                    character = ']'
+                    break
+                case 222:
+                    character = '\''
+                    break
+                default:
+                    character = String.fromCharCode(characterCode);
+                    break
+            }
         }
     }
     return character;
@@ -95,11 +137,13 @@ function play() {
     let lastBeatPressed = -1
     document.onkeydown = (e) => {
         // (new Audio('/click.mp3')).play()
+
         const pos = player.getPositionInBeats()
         const currBeat = Math.round(pos)
         
         const offset = pos - currBeat
-        console.log(offset);
+        console.log(program.in);
+        // console.log(offset);
         const s = mapKeyPressToActualCharacter(e.shiftKey, e.keyCode);
         if(e.key == 'Backspace'){
             program.innerText = program.innerText.slice(0, -1)

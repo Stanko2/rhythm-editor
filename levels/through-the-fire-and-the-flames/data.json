@@ -1,0 +1,8 @@
+{
+    "bpm": 200,
+    "firstOffset": 0.453,
+    "song": "/through-the-fire-and-the-flames.mp3",
+    "tests": {
+        "1.in": "1.out"
+    }
+}
