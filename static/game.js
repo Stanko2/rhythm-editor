@@ -9,7 +9,11 @@ const submitBtn = document.getElementById('submit')
 playBtn.onclick = play
 stopBtn.onclick = stop
 submitBtn.onclick = submit
+let programText = ''
 
+const escapeHtml = (unsafe) => {
+    return unsafe.replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;').replaceAll("'", '&#039;');
+}
 
 function mapKeyPressToActualCharacter(isShiftKey, characterCode) {
     if (characterCode === 13){
@@ -131,37 +135,38 @@ function play() {
     visualizer()
 
     player.addEventListener('beat', ()=> {
-        (new Audio('/click.mp3')).play()
+        // (new Audio('/click.mp3')).play()
         blink()
     })
     let lastBeatPressed = -1
+    hljs.safeMode(false)
     document.onkeydown = (e) => {
-        // (new Audio('/click.mp3')).play()
+        (new Audio('/click.mp3')).play()
 
         const pos = player.getPositionInBeats()
         const currBeat = Math.round(pos)
         
         const offset = pos - currBeat
-        console.log(program.in);
-        // console.log(offset);
+        console.log(offset);
         const s = mapKeyPressToActualCharacter(e.shiftKey, e.keyCode);
         if(e.key == 'Backspace'){
-            program.innerText = program.innerText.slice(0, -1)
+            programText = programText.slice(0, -1)
         } else {
             if(s === false || s == undefined) return
-            if(Math.abs(offset) < 0.5 && lastBeatPressed != currBeat) { // tolerancia
+            if(Math.abs(offset) < 0.3 && lastBeatPressed != currBeat) { // tolerancia
                 // 0.5 - vzdy, nezalezi na rytme
                 // 0.4 - celkom ok, lahke - asi najvyssi upgrade
                 // 0.3 - take priemerne - da sa triafat vzdy
                 // 0.2 - da sa triafat tak ~70-80% - asi dobry base value
                 // <0.1 - takmer nikdy netrafis
-                program.innerText += s
+                programText += s
                 lastBeatPressed = currBeat
             } else {
-                program.innerText = program.innerText.slice(0, -1)
+                programText = programText.slice(0, -1)
             }
         }
         
+        program.innerHTML = escapeHtml(programText) 
         delete program.dataset.highlighted
         hljs.highlightAll();
     }
@@ -182,12 +187,11 @@ function stop() {
 }
 
 async function submit() {
-    console.log(program.innerText);
     
     const res = await fetch(location.href + '/submit', {
         method: 'POST',
         body: JSON.stringify({
-            program: program.innerText
+            program: programText
         }),
         headers: {
             'Content-Type': 'application/json'

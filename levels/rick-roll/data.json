@@ -1,6 +1,6 @@
 {
     "bpm": 113,
-    "firstOffset": 1.903,
+    "firstOffset": 1.439,
     "song": "/rick-roll.mp3",
     "tests": {
         "1.in": "1.out"

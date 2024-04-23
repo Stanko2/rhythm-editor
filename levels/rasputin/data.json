@@ -1,6 +1,6 @@
 {
     "bpm": 127,
-    "firstOffset": 0.093,
+    "firstOffset": 0.471,
     "song": "/rasputin.mp3",
     "tests": {
         "1.in": "1.out"
