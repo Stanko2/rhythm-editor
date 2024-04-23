@@ -1,0 +1,8 @@
+{
+    "bpm": 105,
+    "firstOffset": 1.497,
+    "song": "/in-the-end.mp3",
+    "tests": {
+        "1.in": "1.out"
+    }
+}
