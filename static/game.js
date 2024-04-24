@@ -122,7 +122,9 @@ function blink() {
         easing: 'easeInOutExpo'
     })
 
-    const cursor = document.getElementsByClassName('cursor')[0].style.opacity = 1
+    const cursor = document.getElementsByClassName('cursor')[0]
+    if(cursor)
+        cursor.style.opacity = 1
     anime({
         targets: cursor,
         opacity: 0.5,
@@ -168,7 +170,7 @@ function play() {
             programText = programText.slice(0, -1)
         } else {
             if(s === false || s == undefined) return
-            if(Math.abs(offset) < 0.5 && lastBeatPressed != currBeat) { // tolerancia
+            if(Math.abs(offset) < 0.3 && lastBeatPressed != currBeat) { // tolerancia
                 // 0.5 - vzdy, nezalezi na rytme
                 // 0.4 - celkom ok, lahke - asi najvyssi upgrade
                 // 0.3 - take priemerne - da sa triafat vzdy
