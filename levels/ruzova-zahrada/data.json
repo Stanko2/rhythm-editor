@@ -1,0 +1,8 @@
+{
+    "bpm": 168,
+    "firstOffset": 0.279,
+    "song": "/ruzova-zahrada.mp3",
+    "tests": {
+        "1.in": "1.out"
+    }
+}
