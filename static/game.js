@@ -6,6 +6,7 @@ const stopBtn = document.getElementById('stop')
 const submitBtn = document.getElementById('submit')
 const levelSelect = document.getElementById('level-select')
 const game = document.getElementById('level')
+const message = document.getElementById('score-message')
 hljs.highlightAll();
 // const c = document.getElementById('c')
 
@@ -166,6 +167,7 @@ function play() {
         const offset = pos - currBeat
         console.log(offset);
         const s = mapKeyPressToActualCharacter(e.shiftKey, e.keyCode);
+        ShowScore(Math.abs(offset))
         if(e.key == 'Backspace'){
             programText = programText.slice(0, -1)
         } else {
@@ -190,6 +192,45 @@ function play() {
         program.innerHTML += `<i class="cursor"></i>`
         window.scrollTo(0, document.body.scrollHeight);
     }
+}
+
+function ShowScore(value) {
+    const scores = {
+        '0.15': {
+            message: 'PERFECT',
+            color: 'green'
+        },
+        '0.25': {
+            message: 'AWESOME',
+            color: 'blue'
+        },
+        '0.35': {
+            message: 'OK',
+            color: 'yellow'
+        },
+        '0.5': {
+            message: 'MISS',
+            color: 'red'
+        }
+    }
+    let msg
+    for (const key of Object.keys(scores)) {
+        if(parseFloat(key) > value){
+            msg = scores[key]
+            break
+        }
+    }
+    message.innerText = msg.message
+    message.style.opacity = 1
+    message.style.transform = 'scale(1.1)'
+    message.style.color = msg.color
+    anime({
+        targets: message,
+        opacity: 0,
+        scale: 1,
+        duration: 200,
+        easing: 'easeInElastic'
+    })
 }
 
 function stop() {
