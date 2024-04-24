@@ -54,6 +54,8 @@
                 })
             }).then(res=> {
                 if(res.status == 400){
+                    form.reset()
+                    alert('Neplatný kód: ' + formData.get('code'))
                     return
                 }
                 res.json().then((data)=> {

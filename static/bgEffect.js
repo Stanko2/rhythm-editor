@@ -36,12 +36,18 @@ function calcPageFillRadius(x, y) {
 function addClickListeners() {
 //   document.addEventListener("touchstart", handleEvent);
 //   document.addEventListener("mousedown", handleEvent);
-  document.addEventListener("keydown", (e) =>{ 
-    e.pageX = Math.random() * document.body.clientWidth
-    e.pageY = Math.random() * document.body.clientHeight
-    handleEvent(e)
-  });
+  // document.addEventListener("keydown", (e) =>{ 
+  //   e.pageX = Math.random() * document.body.clientWidth
+  //   e.pageY = Math.random() * document.body.clientHeight
+  //   handleEvent(e)
+  // });
 };
+
+function splash(e) {
+  e.pageX = Math.random() * document.body.clientWidth
+  e.pageY = Math.random() * document.body.clientHeight
+  handleEvent(e)
+}
 
 function handleEvent(e) {
     if (e.touches) { 
@@ -170,44 +176,6 @@ var resizeCanvas = function() {
 
 (function init() {
   resizeCanvas();
-  if (window.CP) {
-    // CodePen's loop detection was causin' problems
-    // and I have no idea why, so...
-    window.CP.PenTimer.MAX_TIME_IN_LOOP_WO_EXIT = 6000; 
-  }
   window.addEventListener("resize", resizeCanvas);
   addClickListeners();
-  if (!!window.location.pathname.match(/fullcpgrid/)) {
-    startFauxClicking();
-  }
-  handleInactiveUser();
 })();
-
-function handleInactiveUser() {
-  var inactive = setTimeout(function(){
-    fauxClick(cW/2, cH/2);
-  }, 2000);
-  
-  function clearInactiveTimeout() {
-    clearTimeout(inactive);
-    document.removeEventListener("mousedown", clearInactiveTimeout);
-    document.removeEventListener("touchstart", clearInactiveTimeout);
-  }
-  
-  document.addEventListener("mousedown", clearInactiveTimeout);
-  document.addEventListener("touchstart", clearInactiveTimeout);
-}
-
-function startFauxClicking() {
-  setTimeout(function(){
-    fauxClick(anime.random( cW * .2, cW * .8), anime.random(cH * .2, cH * .8));
-    startFauxClicking();
-  }, anime.random(200, 900));
-}
-
-function fauxClick(x, y) {
-  var fauxClick = new Event("mousedown");
-  fauxClick.pageX = x;
-  fauxClick.pageY = y;
-  document.dispatchEvent(fauxClick);
-}

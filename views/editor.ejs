@@ -2,19 +2,18 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/1.0.0/anime.min.js"></script>
 <script defer src="/bgEffect.js"></script>
 <div id="game" class="row container">
-    <div class="col-4">
+    <div class="col-4" id="level-select">
         <ul class="list-group">
             <% levels.forEach(level => { %>
                 <% if (user.completedLevels.includes(level)) { %>
-                    <a class="list-group-item list-group-item-success"><%- level %> </a>
+                    <a class="list-group-item list-group-item-success" tabindex="-1"><%- level %> </a>
                 <% } else { %>
-                    <a class="list-group-item list-group-item-action" href="/editor/<%= level %> "><%- level %> </a>
+                    <a class="list-group-item list-group-item-action" href="/editor/<%= level %> " tabindex="-1"><%- level %> </a>
                 <% } %> 
             <% }) %>
         </ul>
     </div>
-    <div class="col-8">
-        <h1>EDITOR</h1>
+    <div class="col-8" id="level">
 
         <svg xmlns="http://www.w3.org/2000/svg" class="d-none">
             <symbol id="check-circle-fill" viewBox="0 0 16 16">
@@ -64,10 +63,10 @@
                 <!-- <div class="beat" style="left: 100px;"></div> -->
             </div>
         </div>
-        <button class="btn btn-primary" id="play">Zacat</button>
-        <button class="btn btn-danger d-none" id="stop">Stop</button>
-        <button class="btn btn-success d-none" id="submit">Submit</button>
-        <div>
+        <button tabindex="-1" class="btn btn-primary" id="play">Zacat</button>
+        <button tabindex="-1" class="btn btn-danger d-none" id="stop">Stop</button>
+        <button tabindex="-1" class="btn btn-success d-none" id="submit">Submit</button>
+        <div class="code">
             <pre><code class="language-python" id="code"></code></pre>
         </div>
     </div>
@@ -88,6 +87,7 @@
         box-sizing: content-box;
         position: relative;
         border: 1px solid black;
+        overflow: hidden;
     }
     .row{
         margin: auto;
@@ -120,5 +120,30 @@
         left: 0;
         opacity: 0.6;
         padding: 0;
+    }
+    .bi {
+        height: 2rem;
+        width: 2rem;
+    }
+    .cursor {
+        width: 2px;
+        height: 1rem;
+        background-color: red;
+        transform: translate(0, 3px);
+        animation: cursor 1000ms alternate infinite;
+        display: inline-block;
+    }
+    .code {
+        margin: 0.3rem;
+        padding: 0.1rem;
+        border-radius: 20px;
+    }
+    @keyframes cursor {
+        0%{
+            opacity: 1;
+        }
+        100% {
+            opacity: 0;
+        }
     }
 </style>

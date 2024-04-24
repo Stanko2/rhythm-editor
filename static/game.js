@@ -4,6 +4,9 @@ const program = document.getElementById('code')
 const playBtn = document.getElementById('play')
 const stopBtn = document.getElementById('stop')
 const submitBtn = document.getElementById('submit')
+const levelSelect = document.getElementById('level-select')
+const game = document.getElementById('level')
+hljs.highlightAll();
 // const c = document.getElementById('c')
 
 playBtn.onclick = play
@@ -45,6 +48,7 @@ function mapKeyPressToActualCharacter(isShiftKey, characterCode) {
     characterMap[220] = "|";
     characterMap[59] = ":";
     characterMap[222] = "\"";
+    characterMap[186] = ":";
     characterMap[187] = "+";
     characterMap[188] = "<";
     characterMap[189] = "_";
@@ -111,11 +115,20 @@ function mapKeyPressToActualCharacter(isShiftKey, characterCode) {
 
 function blink() {
     c.style.opacity = 1
-    c.style.transition = 'none'
-    setTimeout(() => {
-        c.style.transition = 'all 200ms ease-out'
-        c.style.opacity = 0.5
-    }, 80);
+    anime({
+        targets: c,
+        opacity: 0.5,
+        duration: 300,
+        easing: 'easeInOutExpo'
+    })
+
+    const cursor = document.getElementsByClassName('cursor')[0].style.opacity = 1
+    anime({
+        targets: cursor,
+        opacity: 0.5,
+        duration: 300,
+        easing: 'easeInOutExpo'
+    })
 }
 
 
@@ -127,6 +140,8 @@ function play() {
     submitBtn.classList.toggle('d-none')
     stopBtn.classList.toggle('d-none')
     playBtn.classList.toggle('d-none')
+    levelSelect.classList.toggle('d-none')
+    game.classList.toggle('col-8')
     player = new Player({
         bpm: levelData.bpm,
         firstOffset: levelData.firstOffset,
@@ -142,7 +157,7 @@ function play() {
     hljs.safeMode(false)
     document.onkeydown = (e) => {
         (new Audio('/click.mp3')).play()
-
+        console.log(e.keyCode);
         const pos = player.getPositionInBeats()
         const currBeat = Math.round(pos)
         
@@ -153,7 +168,7 @@ function play() {
             programText = programText.slice(0, -1)
         } else {
             if(s === false || s == undefined) return
-            if(Math.abs(offset) < 0.3 && lastBeatPressed != currBeat) { // tolerancia
+            if(Math.abs(offset) < 0.5 && lastBeatPressed != currBeat) { // tolerancia
                 // 0.5 - vzdy, nezalezi na rytme
                 // 0.4 - celkom ok, lahke - asi najvyssi upgrade
                 // 0.3 - take priemerne - da sa triafat vzdy
@@ -161,14 +176,17 @@ function play() {
                 // <0.1 - takmer nikdy netrafis
                 programText += s
                 lastBeatPressed = currBeat
+                splash(e)
             } else {
                 programText = programText.slice(0, -1)
             }
         }
         
-        program.innerHTML = escapeHtml(programText) 
+        program.innerHTML = escapeHtml(programText)
         delete program.dataset.highlighted
         hljs.highlightAll();
+        program.innerHTML += `<i class="cursor"></i>`
+        window.scrollTo(0, document.body.scrollHeight);
     }
 }
 
@@ -180,8 +198,11 @@ function stop() {
     submitBtn.classList.toggle('d-none')
     stopBtn.classList.toggle('d-none')
     playBtn.classList.toggle('d-none')
+    levelSelect.classList.toggle('d-none')
+    game.classList.toggle('col-8')
     player?.stop()
     player = null
+    programText = ''
 
     document.onkeydown = () => {}   
 }
