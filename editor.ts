@@ -14,6 +14,7 @@ export interface Level {
     tests: Record<string, string>
     id: string
     zadanie: string
+    name: string
 }
 
 const levels: Record<string, Level> = {}
@@ -37,7 +38,12 @@ router.get('/:lid', async (req, res) => {
     
     renderView(res, 'editor', {
         user: req.session.user, 
-        levels: Object.keys(levels),
+        levels: Object.keys(levels).map(e=> {
+            return {
+                id: e,
+                name: levels[e].name ?? e
+            }
+        }),
         zadanie: zadania[req.params.lid],
         data: JSON.stringify(levels[req.params.lid]),
         testOutput: undefined
@@ -70,14 +76,6 @@ router.post('/:lid/submit', async (req, res) => {
     }
 
     res.send(output)
-
-    // renderView(res, 'editor', {
-    //     user: req.session.user, 
-    //     levels: Object.keys(levels),
-    //     zadanie: zadania[req.params.lid],
-    //     data: JSON.stringify(levels[req.params.lid]),
-    //     testOutput: output
-    // })
 })
 
 async function loadLevels() {

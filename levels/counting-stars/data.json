@@ -4,5 +4,6 @@
     "song": "/counting-stars.mp3",
     "tests": {
         "1.in": "1.out"
-    }
+    },
+    "name": "Počítame hviezdy"
 }

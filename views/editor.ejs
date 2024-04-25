@@ -1,14 +1,15 @@
 <script defer src="/game.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/1.0.0/anime.min.js"></script>
 <script defer src="/bgEffect.js"></script>
-<div id="game" class="row container">
+<div id="game" class="row container  mt-5">
     <div class="col-4" id="level-select">
+        <h4 class="text-center">Úlohy</h4>
         <ul class="list-group">
             <% levels.forEach(level => { %>
                 <% if (user.completedLevels.includes(level)) { %>
-                    <a class="list-group-item list-group-item-success" tabindex="-1"><%- level %> </a>
+                    <a class="list-group-item list-group-item-success" tabindex="-1"><%- level.name %> </a>
                 <% } else { %>
-                    <a class="list-group-item list-group-item-action" href="/editor/<%= level %> " tabindex="-1"><%- level %> </a>
+                    <a class="list-group-item list-group-item-action" href="/editor/<%= level.id %> " tabindex="-1"><%- level.name %> </a>
                 <% } %> 
             <% }) %>
         </ul>

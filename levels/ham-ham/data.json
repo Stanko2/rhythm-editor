@@ -4,5 +4,6 @@
     "song": "/ham-ham-stajl.mp3",
     "tests": {
         "1.in": "1.out"
-    }
+    },
+    "name": "Ham Ham"
 }
