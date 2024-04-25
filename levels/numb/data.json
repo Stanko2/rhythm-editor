@@ -5,5 +5,6 @@
     "tests": {
         "1.in": "1.out"
     },
-    "name": "Meravosť"
+    "name": "Meravosť",
+    "order": 11
 }
