@@ -15,6 +15,7 @@ export interface Level {
     id: string
     zadanie: string
     name: string
+    order: number
 }
 
 const levels: Record<string, Level> = {}
@@ -38,12 +39,13 @@ router.get('/:lid', async (req, res) => {
     
     renderView(res, 'editor', {
         user: req.session.user, 
-        levels: Object.keys(levels).map(e=> {
+        levels: Object.keys(levels).map((e, i)=> {
             return {
                 id: e,
-                name: levels[e].name ?? e
+                name: levels[e].name ?? e,
+                order: levels[e].order ?? i
             }
-        }),
+        }).sort((a,b) => a.order - b.order),
         zadanie: zadania[req.params.lid],
         data: JSON.stringify(levels[req.params.lid]),
         testOutput: undefined
