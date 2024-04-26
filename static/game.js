@@ -178,7 +178,7 @@ function play() {
                 lastBeatPressed = currBeat
                 splash(e)
             } else {
-                programText = programText.slice(0, -1)
+                if(upgrades.deleteOnMiss) programText = programText.slice(0, -1)
             }
         }
         
