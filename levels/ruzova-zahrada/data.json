@@ -4,5 +4,7 @@
     "song": "/ruzova-zahrada.mp3",
     "tests": {
         "1.in": "1.out"
-    }
+    },
+    "name": "Ružová záhrada",
+    "order": 4
 }
