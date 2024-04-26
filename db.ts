@@ -12,7 +12,7 @@ export interface User {
 }
 
 export interface Upgrades {
-    tolerance: 0 | 1 | 2 | 3
+    tolerance: 0 | 1 | 2 | 3 | 4
     visualizer: 0 | 1 | 2
     deleteOnMiss: boolean
 }
