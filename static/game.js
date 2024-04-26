@@ -115,6 +115,7 @@ function mapKeyPressToActualCharacter(isShiftKey, characterCode) {
 }
 
 function blink() {
+    if(upgrades.visualizer <= 0) return
     c.style.opacity = 1
     anime({
         targets: c,
@@ -150,7 +151,7 @@ function play() {
         firstOffset: levelData.firstOffset,
         link: levelData.song
     })
-    visualizer()
+    if(upgrades.visualizer >= 2) visualizer()
 
     player.addEventListener('beat', ()=> {
         // (new Audio('/click.mp3')).play()
