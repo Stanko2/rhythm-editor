@@ -12,7 +12,12 @@
         "upgrades": {
             "tolerance": 0,
             "visualizer": 0,
-            "deleteOnMiss": true
+            "deleteOnMiss": true,
+            "headphones": false,
+            "darkMode": false,
+            "successFeedback": false,
+            "looping": false,
+            "useTab": false
         },
         "completedLevels": []
     }

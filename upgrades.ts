@@ -33,10 +33,10 @@ const upgrades = <upgrade[]>[
         id: 0,
         cost: 100,
         purchased(data) {
-            return data.tolerance >= 2
+            return data.tolerance >= 1
         },
         apply(data) {
-            data.tolerance = 2
+            data.tolerance = 1
             return data
         }
     },
@@ -46,13 +46,13 @@ const upgrades = <upgrade[]>[
         cost: 1000,
         id: 1,
         purchased(data) {
-            return data.tolerance >= 3
-        },
-        available(data) {
             return data.tolerance >= 2
         },
+        available(data) {
+            return data.tolerance >= 1
+        },
         apply(data) {
-            data.tolerance = 3
+            data.tolerance = 2
             return data
         },
     },
@@ -62,13 +62,13 @@ const upgrades = <upgrade[]>[
         id: 2,
         cost: 10000,
         purchased(data) {
-            return data.tolerance >= 4
-        },
-        available(data) {
             return data.tolerance >= 3
         },
+        available(data) {
+            return data.tolerance >= 2
+        },
         apply(data) {
-            data.tolerance = 4
+            data.tolerance = 3
             return data
         }
     }, 
@@ -76,34 +76,57 @@ const upgrades = <upgrade[]>[
         name: 'Vizuálne efekty',
         description: 'Pozadie bude blikať do rytmu, čiže budeš vidieť, kedy stlačiť kláves',
         id: 4,
+        cost: 1000,
         purchased(data) {
-            return false;
-        }
-    },
-    {
-        name: 'Indikátor úspešných stlačení',
-        description: 'budeš lepšie vidieť kedy sa ti napísal znak a kedy nie',
-        id: 5,
-        purchased(data) {
-            return false;
+            return data.visualizer >= 1;
+        },
+        apply(data) {
+            data.visualizer = 1
+            return data
         }
     },
     {
         name: 'Visualizér',
         description: 'Lepšie uvidíš, presne kedy treba stlačiť kláves',
-        id: 6,
+        id: 5,
+        cost: 1000,
         purchased(data) {
-            return false;
+            return data.visualizer >= 2;
+        },
+        available(data) {
+            return data.visualizer >= 1
+        },
+        apply(data) {
+            data.visualizer = 2
+            return data
+        }
+    },
+    {
+        name: 'Indikátor úspešných stlačení',
+        description: 'budeš lepšie vidieť kedy sa ti napísal znak a kedy nie',
+        id: 6,
+        cost: 1000,
+        purchased(data) {
+            return data.successFeedback;
+        },
+        apply(data) {
+            data.successFeedback = true
+            return data
         }
     },
     {
         name: 'Zrušenie penalizácie',
         description: 'Zruší penalizáciu za stlačenie mimo rytmu, teda sa už nebudú mazať písmenká pri ťukaní mimo rytmu',
         id: 7,
+        cost: 10000,
         purchased(data) {
-            return false;
+            return !data.deleteOnMiss;
+        },
+        apply(data) {
+            data.deleteOnMiss = false
+            return data
         }
-    },
+    },/*
     {
         name: 'Cinkanie',
         description: 'Budeš počuť kedy treba ťukať',
@@ -111,29 +134,44 @@ const upgrades = <upgrade[]>[
         purchased(data) {
             return false;
         }
-    },
+    },*/
     {
         name: 'Slúchadlá',
         description: 'Máš povolenie si zobrať vlastné slúchadlá',
         id: 9,
+        cost: 1000,
         purchased(data) {
-            return false;
+            return data.headphones;
+        },
+        apply(data) {
+            data.headphones = true
+            return data
         }
     },
     {
         name: 'Tab',
         description: 'Môžeš používať Tab namiesto 4 medzier',
         id: 10,
+        cost: 2000,
         purchased(data) {
-            return false;
+            return data.useTab;
+        },
+        apply(data) {
+            data.useTab = true
+            return data
         }
     }, 
     {
         name: 'Loop',
         description: 'Po skončení začne pesnička znova, teda netreba stihnúť napísať kód za jednu iteráciu pesničky',
         id: 11,
+        cost: 2500,
         purchased(data) {
-            return false;
+            return data.looping;
+        },
+        apply(data) {
+            data.looping = true
+            return data
         }
     },
 ]

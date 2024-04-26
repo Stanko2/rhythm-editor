@@ -12,9 +12,14 @@ export interface User {
 }
 
 export interface Upgrades {
-    tolerance: 0 | 1 | 2 | 3 | 4
+    tolerance: 0 | 1 | 2 | 3
     visualizer: 0 | 1 | 2
     deleteOnMiss: boolean
+    headphones: boolean
+    darkMode: boolean
+    successFeedback: boolean
+    looping: boolean
+    useTab: boolean
 }
 
 export interface Coupon {
