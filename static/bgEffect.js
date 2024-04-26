@@ -44,6 +44,7 @@ function addClickListeners() {
 };
 
 function splash(e) {
+  if(!upgrades.successFeedback) return
   e.pageX = Math.random() * document.body.clientWidth
   e.pageY = Math.random() * document.body.clientHeight
   handleEvent(e)
