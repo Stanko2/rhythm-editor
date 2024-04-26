@@ -172,12 +172,7 @@ function play() {
             programText = programText.slice(0, -1)
         } else {
             if(s === false || s == undefined) return
-            if(Math.abs(offset) < 0.3 && lastBeatPressed != currBeat) { // tolerancia
-                // 0.5 - vzdy, nezalezi na rytme
-                // 0.4 - celkom ok, lahke - asi najvyssi upgrade
-                // 0.3 - take priemerne - da sa triafat vzdy
-                // 0.2 - da sa triafat tak ~70-80% - asi dobry base value
-                // <0.1 - takmer nikdy netrafis
+            if(GetHitAccuracy(Math.abs(offset)) <= upgrades.tolerance && lastBeatPressed != currBeat) {
                 programText += s
                 lastBeatPressed = currBeat
                 splash(e)
@@ -194,32 +189,58 @@ function play() {
     }
 }
 
+function GetHitAccuracy(offset) {
+    // tolerancia
+    // 0.5 - vzdy, nezalezi na rytme
+    // 0.4 - celkom ok, lahke - asi najvyssi upgrade
+    // 0.3 - take priemerne - da sa triafat vzdy
+    // 0.2 - da sa triafat tak ~70-80% - asi dobry base value
+    // <0.1 - takmer nikdy netrafis
+    const tiers = {
+        '0.15': {
+            tier: 0
+        },
+        '0.25': {
+            tier: 1
+        },
+        '0.35': {
+            tier: 2
+        },
+        '0.5': {
+            tier: 3
+        }
+    }
+    let result
+    for (const key of Object.keys(tiers)) {
+        if(parseFloat(key) > offset){
+            result = tiers[key]
+            break
+        }
+    }
+    return result.tier
+}
+
 function ShowScore(value) {
     const scores = {
-        '0.15': {
+        0: {
             message: 'PERFECT',
             color: 'green'
         },
-        '0.25': {
+        1: {
             message: 'AWESOME',
             color: 'blue'
         },
-        '0.35': {
+        2: {
             message: 'OK',
             color: 'yellow'
         },
-        '0.5': {
+        3: {
             message: 'MISS',
             color: 'red'
         }
     }
     let msg
-    for (const key of Object.keys(scores)) {
-        if(parseFloat(key) > value){
-            msg = scores[key]
-            break
-        }
-    }
+    msg = scores[GetHitAccuracy(value)]
     message.innerText = msg.message
     message.style.opacity = 1
     message.style.transform = 'scale(1.1)'
@@ -275,7 +296,7 @@ function visualizer() {
     const width = vis.clientWidth
     const beatDivs = []
     const visSeconds = 3
-    const tolerance = 0.2
+    const tolerance = 0.15
     const bps = player.song.bpm / 60
     const beatLength = (width / visSeconds) / bps
     const beatBarWidth = beatLength * (tolerance * 2)
