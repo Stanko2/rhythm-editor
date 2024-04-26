@@ -298,7 +298,7 @@ function visualizer() {
         for (let i = 0; i < beatDivs.length; i++) {
             const div = beatDivs[i]
             const pos = parseInt(div.style.left.slice(0,-2))
-            if(pos < 0) {
+            if(pos < 64-beatBarWidth) {
                 beatDivs.splice(i, 1)
                 div.remove()
                 continue
