@@ -6,8 +6,11 @@ import { Level } from './editor';
 const TIME_LIMIT = 5000
 
 export async function test(submit: string, user: string, level: Level): Promise<TestOutput> {
-    if(submit.match('import') != null)
-        throw new Error('Imports are not allowed');
+    if(submit.match('import') != null){
+        return {
+            status: 'EXC'
+        }
+    }
     const levelPath = path.join(__dirname, 'levels', level.id)
     const programPath = path.join(levelPath, 'submits', user + '.py')
     fs.writeFile(programPath, submit);

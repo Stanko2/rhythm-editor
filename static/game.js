@@ -24,7 +24,7 @@ function mapKeyPressToActualCharacter(isShiftKey, characterCode) {
         return "\n"
     }
 
-    if ( characterCode === 27 || characterCode === 8 || characterCode === 9 || characterCode === 20 || characterCode === 16 || characterCode === 17 || characterCode === 91 || characterCode === 92 || characterCode === 18 ) {
+    if ( characterCode === 27 || characterCode === 8 || characterCode === 20 || characterCode === 16 || characterCode === 17 || characterCode === 91 || characterCode === 92 || characterCode === 18 ) {
         return false;
     }
     if (typeof isShiftKey != "boolean" || typeof characterCode != "number") {
@@ -70,7 +70,10 @@ function mapKeyPressToActualCharacter(isShiftKey, characterCode) {
         } else {
             switch (characterCode) {
                 case 13:
-                    character = '\n '
+                    character = '\n'
+                    break
+                case 9:
+                    character = '\t'
                     break
                 case 186:
                     character = ';'
@@ -141,11 +144,11 @@ let player
 function play() {
     if(playing) return
     playing = true
-    submitBtn.classList.toggle('d-none')
-    stopBtn.classList.toggle('d-none')
-    playBtn.classList.toggle('d-none')
-    levelSelect.classList.toggle('d-none')
-    game.classList.toggle('col-8')
+    submitBtn.classList.remove('d-none')
+    stopBtn.classList.remove('d-none')
+    playBtn.classList.add('d-none')
+    levelSelect.classList.add('d-none')
+    game.classList.remove('col-8')
     player = new Player({
         bpm: levelData.bpm,
         firstOffset: levelData.firstOffset,
@@ -160,13 +163,11 @@ function play() {
     let lastBeatPressed = -1
     hljs.safeMode(false)
     document.onkeydown = (e) => {
-        (new Audio('/click.mp3')).play()
-        console.log(e.keyCode);
+        e.preventDefault()
         const pos = player.getPositionInBeats()
         const currBeat = Math.round(pos)
         
         const offset = pos - currBeat
-        console.log(offset);
         const s = mapKeyPressToActualCharacter(e.shiftKey, e.keyCode);
         ShowScore(Math.abs(offset))
         if(e.key == 'Backspace'){
@@ -174,6 +175,7 @@ function play() {
         } else {
             if(s === false || s == undefined) return
             if(GetHitAccuracy(Math.abs(offset)) <= upgrades.tolerance && lastBeatPressed != currBeat) {
+                // TODO: check if tab upgrade unlocked or s != '\t'
                 programText += s
                 lastBeatPressed = currBeat
                 splash(e)
@@ -184,7 +186,7 @@ function play() {
         
         program.innerHTML = escapeHtml(programText)
         delete program.dataset.highlighted
-        hljs.highlightAll();
+        hljs.highlightElement(program);
         program.innerHTML += `<i class="cursor"></i>`
         window.scrollTo(0, document.body.scrollHeight);
     }
@@ -260,11 +262,11 @@ function stop() {
     program.innerText = ""
     playing = false
 
-    submitBtn.classList.toggle('d-none')
-    stopBtn.classList.toggle('d-none')
-    playBtn.classList.toggle('d-none')
-    levelSelect.classList.toggle('d-none')
-    game.classList.toggle('col-8')
+    submitBtn.classList.add('d-none')
+    stopBtn.classList.add('d-none')
+    playBtn.classList.remove('d-none')
+    levelSelect.classList.remove('d-none')
+    game.classList.add('col-8')
     player?.stop()
     player = null
     programText = ''
@@ -273,7 +275,10 @@ function stop() {
 }
 
 async function submit() {
-    
+    for (const status of ['OK', 'WA', 'EXC', 'TLE']) {
+        document.getElementById(status).classList.add('d-none')
+    }
+
     const res = await fetch(location.href + '/submit', {
         method: 'POST',
         body: JSON.stringify({
@@ -285,9 +290,8 @@ async function submit() {
     })
 
     const data = await res.json()
-
-    document.getElementById(data.status).classList.toggle('d-none')
-
+    document.getElementById(data.status).classList.remove('d-none')
+    // multi-submit budes vediet submitnut viackrat
     stop();
 }
 
@@ -352,6 +356,11 @@ class Player extends EventTarget {
         this.start = performance.now()
         this.firstOffset = song.firstOffset
         this.audio = new Audio(song.link)
+        this.audio.onended = () => {
+            // TODO: check if has loop upgrade
+            this.stop()
+            this.play()
+        }
         this.play()
     }
 
