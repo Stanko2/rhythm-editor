@@ -3,8 +3,9 @@
     "firstOffset": 0.165,
     "song": "/ham-ham-stajl.mp3",
     "tests": {
-        "1.in": "1.out"
+        "1.in": "1.out",
+        "2.in": "2.out"
     },
     "name": "Ham Ham",
     "order": 8
-}
+}   
