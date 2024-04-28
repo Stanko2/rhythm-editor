@@ -1,6 +1,6 @@
 {
     "bpm": 122,
-    "firstOffset": 0.569,
+    "firstOffset": 0.471,
     "song": "/counting-stars.mp3",
     "tests": {
         "1.in": "1.out",

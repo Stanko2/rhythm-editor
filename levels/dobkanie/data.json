@@ -1,6 +1,6 @@
 {
     "bpm": 156,
-    "firstOffset": 0.143,
+    "firstOffset": 0.335,
     "song": "/dobkanie.mp3",
     "tests": {
         "1.in": "1.out",

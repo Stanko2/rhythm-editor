@@ -1,6 +1,6 @@
 {
     "bpm": 104,
-    "firstOffset": 0.418,
+    "firstOffset": 0.649,
     "song": "/all-star.mp3",
     "tests": {
         "1.in": "1.out",

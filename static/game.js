@@ -351,7 +351,7 @@ function visualizer() {
 class Player extends EventTarget {
     getPositionInBeats() {
         // const songStart = this.start + this.song.firstOffset * 1000
-        const currentPosition = this.audio.currentTime - this.song.firstOffset * 1000
+        const currentPosition = this.audio.currentTime - this.song.firstOffset
         return currentPosition / (60 / this.song.bpm) - 0.5
     }
 

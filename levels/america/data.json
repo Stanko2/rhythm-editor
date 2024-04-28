@@ -1,0 +1,13 @@
+{
+    "bpm": 125,
+    "firstOffset": 0.562,
+    "song": "/amerika.mp3",
+    "tests": {
+        "1.in": "1.out",
+        "2.in": "2.out",
+        "3.in": "3.out",
+        "4.in": "4.out"
+    },
+    "name": "",
+    "order": 9
+}
