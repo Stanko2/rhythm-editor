@@ -33,7 +33,8 @@ interface TestOutput {
 
 async function testInput(program: string, input: string, output: string): Promise<TestOutput> {
     return new Promise(async (resolve, reject)=> {
-        const p = spawn('python3', [ program ])
+        var isWin = process.platform === "win32";
+        const p = spawn(isWin ? 'python' : 'python3', [ program ])
         p.on('error', reject)
         p.stdin.write(await fs.readFile(input))
         let out = ''
