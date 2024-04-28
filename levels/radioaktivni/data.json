@@ -1,0 +1,13 @@
+{
+    "bpm": 136,
+    "firstOffset": 0.418,
+    "song": "/radioaktivni.mp3",
+    "tests": {
+        "1.in": "1.out",
+        "2.in": "2.out",
+        "3.in": "3.out",
+        "4.in": "4.out"
+    },
+    "name": "Radioaktivny",
+    "order": 9
+}
