@@ -1,0 +1,13 @@
+{
+    "bpm": 156,
+    "firstOffset": 0.143,
+    "song": "/dobkanie.mp3",
+    "tests": {
+        "1.in": "1.out",
+        "2.in": "2.out",
+        "3.in": "3.out",
+        "4.in": "4.out"
+    },
+    "name": "Ďobkanie",
+    "order": 9
+}
