@@ -1,6 +1,6 @@
 {
     "bpm": 115,
-    "firstOffset": 0.617,
+    "firstOffset": 0.408,
     "song": "/baby-shark.mp3",
     "tests": {
         "1.in": "1.out",
