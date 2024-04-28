@@ -12,6 +12,9 @@ export async function test(submit: string, user: string, level: Level): Promise<
         }
     }
     const levelPath = path.join(__dirname, 'levels', level.id)
+    if(!fs.exists(path.join(levelPath, 'submits'))){
+        await fs.mkdir(path.join(levelPath, 'submits'))
+    }
     const programPath = path.join(levelPath, 'submits', user + '.py')
     fs.writeFile(programPath, submit);
 
