@@ -276,6 +276,8 @@ function stop() {
 }
 
 async function submit() {
+    document.getElementById('submiting').classList.remove('d-none')
+    submitBtn.disabled = true
     for (const status of ['OK', 'WA', 'EXC', 'TLE']) {
         document.getElementById(status).classList.add('d-none')
     }
@@ -291,6 +293,8 @@ async function submit() {
     })
 
     const data = await res.json()
+    submitBtn.disabled = false
+    document.getElementById('submiting').classList.add('d-none')
     document.getElementById(data.status).classList.remove('d-none')
     // multi-submit budes vediet submitnut viackrat
     stop();
