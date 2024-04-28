@@ -168,6 +168,7 @@ function play() {
         const currBeat = Math.round(pos)
         
         const offset = pos - currBeat
+        console.log(offset);
         const s = mapKeyPressToActualCharacter(e.shiftKey, e.keyCode);
         ShowScore(Math.abs(offset))
         if(e.key == 'Backspace'){

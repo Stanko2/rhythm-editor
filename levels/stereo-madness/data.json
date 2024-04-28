@@ -1,0 +1,10 @@
+{
+    "bpm": 160,
+    "firstOffset": 0.032,
+    "song": "/stereo-madness.mp3",
+    "tests": {
+        "1.in": "1.out"
+    },
+    "name": "stereo-madness",
+    "order": 10
+}
