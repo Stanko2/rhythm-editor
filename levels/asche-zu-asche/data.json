@@ -1,6 +1,6 @@
 {
     "bpm": 170,
-    "firstOffset": 0.162,
+    "firstOffset": 0.338,
     "song": "/asche-zu-asche.mp3",
     "tests": {
         "1.in": "1.out"
