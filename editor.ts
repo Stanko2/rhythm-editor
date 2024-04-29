@@ -22,7 +22,7 @@ const levels: Record<string, Level> = {}
 const zadania: Record<string, string> = {}
 
 router.get('/', (req,res) => {
-    const firstLevel = Object.keys(levels)[0]
+    const firstLevel = Object.keys(levels).sort((a,b)=> levels[a].order - levels[b].order)[0]
     res.redirect('/editor/' + firstLevel)
 })
 
@@ -36,7 +36,7 @@ router.get('/:lid', async (req, res) => {
         res.sendStatus(404)
         return
     }
-    
+    req.session.user = await db.getUser(req.session.user.id) || undefined;
     renderView(res, 'editor', {
         user: req.session.user, 
         levels: Object.keys(levels).map((e, i)=> {

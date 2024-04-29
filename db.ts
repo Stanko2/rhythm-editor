@@ -74,7 +74,7 @@ export class Database {
     }
 
     async createCoupon(coins: number): Promise<Coupon> {
-        const code = makeid(7)
+        const code = makeid(5)
         const coupon = <Coupon>{
             code,
             coins
