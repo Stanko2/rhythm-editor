@@ -19,6 +19,7 @@ export interface Upgrades {
     successFeedback: boolean
     looping: boolean
     useTab: boolean
+    multiSubmit: boolean
 }
 
 export interface Coupon {

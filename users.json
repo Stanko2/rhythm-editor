@@ -16,7 +16,8 @@
             "headphones": false,
             "successFeedback": false,
             "looping": false,
-            "useTab": false
+            "useTab": false,
+            "multiSubmit": false
         },
         "completedLevels": []
     }

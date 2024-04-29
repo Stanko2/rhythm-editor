@@ -65,7 +65,7 @@ const upgrades = <upgrade[]>[
             return data.tolerance >= 3
         },
         available(data) {
-            return data.tolerance >= 2
+            return !data.deleteOnMiss;
         },
         apply(data) {
             data.tolerance = 3
@@ -109,6 +109,9 @@ const upgrades = <upgrade[]>[
         purchased(data) {
             return data.successFeedback;
         },
+        available(data) {
+            return data.visualizer >= 1
+        },
         apply(data) {
             data.successFeedback = true
             return data
@@ -121,6 +124,9 @@ const upgrades = <upgrade[]>[
         cost: 10000,
         purchased(data) {
             return !data.deleteOnMiss;
+        },
+        available(data) {
+            return data.tolerance >= 2
         },
         apply(data) {
             data.deleteOnMiss = false
@@ -156,6 +162,9 @@ const upgrades = <upgrade[]>[
         purchased(data) {
             return data.useTab;
         },
+        available(data) {
+            return data.tolerance >= 1
+        },
         apply(data) {
             data.useTab = true
             return data
@@ -169,8 +178,27 @@ const upgrades = <upgrade[]>[
         purchased(data) {
             return data.looping;
         },
+        available(data) {
+            return data.headphones
+        },
         apply(data) {
             data.looping = true
+            return data
+        }
+    },
+    {
+        name: 'Multi submit',
+        description: 'Po submite sa ti kód nezmaže, a v prípade nesprávneho submitu môžeš v programovaní pokračovať',
+        id: 12,
+        cost: 2500,
+        purchased(data) {
+            return data.multiSubmit;
+        },
+        available(data) {
+            return data.looping
+        },
+        apply(data) {
+            data.multiSubmit = true
             return data
         }
     },
