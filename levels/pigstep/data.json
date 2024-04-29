@@ -1,6 +1,6 @@
 {
-    "bpm": 113,
-    "firstOffset": 0.592,
+    "bpm": 85,
+    "firstOffset": 0.357,
     "song": "/pigstep.mp3",
     "tests": {
         "1.in": "1.out",
