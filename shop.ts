@@ -6,15 +6,15 @@ import { db } from "./db";
 
 const router = Router()
 
-router.get('/', (req, res) => {
-    const user = req.session.user
+router.get('/', async (req, res) => {
+    const user = await db.getUser(req.session.user?.id || -1) || undefined
     if(user == undefined){
         res.redirect('/')
         return
     }
 
     renderView(res, 'shop', {
-        user: req.session.user,
+        user: user,
         upgrades: upgrades.filter(e=> {
             if(e.available)
                 return e.available(user.upgrades)
@@ -30,6 +30,7 @@ router.get('/', (req, res) => {
 
 router.post('/buy/:id', async (req, res)=> {
     let user = await db.getUser(req.session.user?.id || -1) || undefined
+    
     if(user == undefined){
         res.status(400)
         res.send('Invalid session')
@@ -42,7 +43,8 @@ router.post('/buy/:id', async (req, res)=> {
         res.send('Invalid upgrade')
         return
     }
-
+    
+    console.log(user?.upgrades.tolerance, req.session.user!.upgrades.tolerance);
     if(user.coins < upgrade.cost){
         res.status(403)
         res.send('Not enough coins')
