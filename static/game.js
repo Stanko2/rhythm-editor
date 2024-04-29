@@ -176,7 +176,8 @@ function play() {
         } else {
             if(s === false || s == undefined) return
             if(GetHitAccuracy(Math.abs(offset)) <= upgrades.tolerance && lastBeatPressed != currBeat) {
-                // TODO: check if tab upgrade unlocked or s != '\t'
+                if(s === '\t' && !upgrades.useTab)
+                    return
                 programText += s
                 lastBeatPressed = currBeat
                 splash(e)
