@@ -5,7 +5,194 @@
         "admin": true
     },
     {
-        "name": "test",
+        "name": "simpanzy_1",
+        "password": "ahoj",
+        "admin": false,
+        "coins": 100,
+        "upgrades": {
+            "tolerance": 0,
+            "visualizer": 0,
+            "deleteOnMiss": true,
+            "headphones": false,
+            "successFeedback": false,
+            "looping": false,
+            "useTab": false,
+            "multiSubmit": false
+        },
+        "completedLevels": []
+    },
+    {
+        "name": "simpanzy_2",
+        "password": "ahoj",
+        "admin": false,
+        "coins": 100,
+        "upgrades": {
+            "tolerance": 0,
+            "visualizer": 0,
+            "deleteOnMiss": true,
+            "headphones": false,
+            "successFeedback": false,
+            "looping": false,
+            "useTab": false,
+            "multiSubmit": false
+        },
+        "completedLevels": []
+    },
+    {
+        "name": "vitazi_1",
+        "password": "ahoj",
+        "admin": false,
+        "coins": 100,
+        "upgrades": {
+            "tolerance": 0,
+            "visualizer": 0,
+            "deleteOnMiss": true,
+            "headphones": false,
+            "successFeedback": false,
+            "looping": false,
+            "useTab": false,
+            "multiSubmit": false
+        },
+        "completedLevels": []
+    },
+    {
+        "name": "vitazi_2",
+        "password": "ahoj",
+        "admin": false,
+        "coins": 100,
+        "upgrades": {
+            "tolerance": 0,
+            "visualizer": 0,
+            "deleteOnMiss": true,
+            "headphones": false,
+            "successFeedback": false,
+            "looping": false,
+            "useTab": false,
+            "multiSubmit": false
+        },
+        "completedLevels": []
+    },
+    {
+        "name": "sudy_1",
+        "password": "ahoj",
+        "admin": false,
+        "coins": 100,
+        "upgrades": {
+            "tolerance": 0,
+            "visualizer": 0,
+            "deleteOnMiss": true,
+            "headphones": false,
+            "successFeedback": false,
+            "looping": false,
+            "useTab": false,
+            "multiSubmit": false
+        },
+        "completedLevels": []
+    },
+    {
+        "name": "sudy_2",
+        "password": "ahoj",
+        "admin": false,
+        "coins": 100,
+        "upgrades": {
+            "tolerance": 0,
+            "visualizer": 0,
+            "deleteOnMiss": true,
+            "headphones": false,
+            "successFeedback": false,
+            "looping": false,
+            "useTab": false,
+            "multiSubmit": false
+        },
+        "completedLevels": []
+    },
+    {
+        "name": "sc_1",
+        "password": "ahoj",
+        "admin": false,
+        "coins": 100,
+        "upgrades": {
+            "tolerance": 0,
+            "visualizer": 0,
+            "deleteOnMiss": true,
+            "headphones": false,
+            "successFeedback": false,
+            "looping": false,
+            "useTab": false,
+            "multiSubmit": false
+        },
+        "completedLevels": []
+    },
+    {
+        "name": "sc_2",
+        "password": "ahoj",
+        "admin": false,
+        "coins": 100,
+        "upgrades": {
+            "tolerance": 0,
+            "visualizer": 0,
+            "deleteOnMiss": true,
+            "headphones": false,
+            "successFeedback": false,
+            "looping": false,
+            "useTab": false,
+            "multiSubmit": false
+        },
+        "completedLevels": []
+    },
+    {
+        "name": "my_1",
+        "password": "ahoj",
+        "admin": false,
+        "coins": 100,
+        "upgrades": {
+            "tolerance": 0,
+            "visualizer": 0,
+            "deleteOnMiss": true,
+            "headphones": false,
+            "successFeedback": false,
+            "looping": false,
+            "useTab": false,
+            "multiSubmit": false
+        },
+        "completedLevels": []
+    },
+    {
+        "name": "my_2",
+        "password": "ahoj",
+        "admin": false,
+        "coins": 100,
+        "upgrades": {
+            "tolerance": 0,
+            "visualizer": 0,
+            "deleteOnMiss": true,
+            "headphones": false,
+            "successFeedback": false,
+            "looping": false,
+            "useTab": false,
+            "multiSubmit": false
+        },
+        "completedLevels": []
+    },
+    {
+        "name": "voleeeee_1",
+        "password": "ahoj",
+        "admin": false,
+        "coins": 100,
+        "upgrades": {
+            "tolerance": 0,
+            "visualizer": 0,
+            "deleteOnMiss": true,
+            "headphones": false,
+            "successFeedback": false,
+            "looping": false,
+            "useTab": false,
+            "multiSubmit": false
+        },
+        "completedLevels": []
+    },
+    {
+        "name": "voleeeee_2",
         "password": "ahoj",
         "admin": false,
         "coins": 100,
