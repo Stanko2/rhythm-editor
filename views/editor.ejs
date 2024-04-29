@@ -21,13 +21,14 @@
             <%- zadanie %>
         </div>
         <hr>
-
-        <div class="visualizer">
-            <div class="currentTime"></div>
-            <div class="beats" id="beats">
-                <!-- <div class="beat" style="left: 100px;"></div> -->
+        <% if (user.upgrades.visualizer) { %>
+            <div class="visualizer">
+                <div class="currentTime"></div>
+                <div class="beats" id="beats">
+                    <!-- <div class="beat" style="left: 100px;"></div> -->
+                </div>
             </div>
-        </div>
+        <% } %>
         <button tabindex="-1" class="btn btn-primary" id="play">Zacat</button>
         <button tabindex="-1" class="btn btn-danger d-none" id="stop">Stop</button>
         <button tabindex="-1" class="btn btn-success d-none" id="submit">Submit</button>
