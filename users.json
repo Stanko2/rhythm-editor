@@ -6,7 +6,7 @@
     },
     {
         "name": "simpanzy_1",
-        "password": "ahoj",
+        "password": "CardRepresentative",
         "admin": false,
         "coins": 100,
         "upgrades": {
@@ -23,7 +23,7 @@
     },
     {
         "name": "simpanzy_2",
-        "password": "ahoj",
+        "password": "GateMailbox",
         "admin": false,
         "coins": 100,
         "upgrades": {
@@ -40,7 +40,7 @@
     },
     {
         "name": "vitazi_1",
-        "password": "ahoj",
+        "password": "AmusementLunch",
         "admin": false,
         "coins": 100,
         "upgrades": {
@@ -57,7 +57,7 @@
     },
     {
         "name": "vitazi_2",
-        "password": "ahoj",
+        "password": "ThingsDisgust",
         "admin": false,
         "coins": 100,
         "upgrades": {
@@ -74,7 +74,7 @@
     },
     {
         "name": "sudy_1",
-        "password": "ahoj",
+        "password": "CableCheese",
         "admin": false,
         "coins": 100,
         "upgrades": {
@@ -91,7 +91,7 @@
     },
     {
         "name": "sudy_2",
-        "password": "ahoj",
+        "password": "KiteInk",
         "admin": false,
         "coins": 100,
         "upgrades": {
@@ -108,7 +108,7 @@
     },
     {
         "name": "sc_1",
-        "password": "ahoj",
+        "password": "ShipMap",
         "admin": false,
         "coins": 100,
         "upgrades": {
@@ -125,7 +125,7 @@
     },
     {
         "name": "sc_2",
-        "password": "ahoj",
+        "password": "BridgeComb",
         "admin": false,
         "coins": 100,
         "upgrades": {
@@ -142,7 +142,7 @@
     },
     {
         "name": "my_1",
-        "password": "ahoj",
+        "password": "BedsPerson",
         "admin": false,
         "coins": 100,
         "upgrades": {
@@ -159,7 +159,7 @@
     },
     {
         "name": "my_2",
-        "password": "ahoj",
+        "password": "FlockFriend",
         "admin": false,
         "coins": 100,
         "upgrades": {
@@ -176,7 +176,7 @@
     },
     {
         "name": "voleeeee_1",
-        "password": "ahoj",
+        "password": "PumpRoll",
         "admin": false,
         "coins": 100,
         "upgrades": {
@@ -193,7 +193,7 @@
     },
     {
         "name": "voleeeee_2",
-        "password": "ahoj",
+        "password": "SodaWeather",
         "admin": false,
         "coins": 100,
         "upgrades": {
