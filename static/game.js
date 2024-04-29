@@ -363,9 +363,12 @@ class Player extends EventTarget {
         this.firstOffset = song.firstOffset
         this.audio = new Audio(song.link)
         this.audio.onended = () => {
-            // TODO: check if has loop upgrade
-            this.stop()
-            this.play()
+            if(upgrades.looping){
+                this.stop()
+                this.play()
+            }else{
+                stop()
+            }
         }
         this.play()
     }
