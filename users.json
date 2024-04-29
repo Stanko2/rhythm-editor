@@ -14,7 +14,6 @@
             "visualizer": 0,
             "deleteOnMiss": true,
             "headphones": false,
-            "darkMode": false,
             "successFeedback": false,
             "looping": false,
             "useTab": false

@@ -16,7 +16,6 @@ export interface Upgrades {
     visualizer: 0 | 1 | 2
     deleteOnMiss: boolean
     headphones: boolean
-    darkMode: boolean
     successFeedback: boolean
     looping: boolean
     useTab: boolean
