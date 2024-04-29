@@ -31,7 +31,7 @@ const upgrades = <upgrade[]>[
         name: 'Základná tolerancia',
         description: 'Budeš vedieť písať aj pri "AWESOME"',
         id: 0,
-        cost: 100,
+        cost: 250,
         purchased(data) {
             return data.tolerance >= 1
         },
@@ -60,7 +60,7 @@ const upgrades = <upgrade[]>[
         name: 'Zrušenie penalizácie',
         description: 'Zruší penalizáciu za stlačenie mimo rytmu, teda sa už nebudú mazať písmenká pri ťukaní mimo rytmu',
         id: 2,
-        cost: 10000,
+        cost: 5000,
         purchased(data) {
             return !data.deleteOnMiss;
         },
@@ -76,7 +76,7 @@ const upgrades = <upgrade[]>[
         name: 'Ultimátna tolerancia',
         description: 'Budeš vedieť písať vždy, stále však iba jeden kláves za beat.',
         id: 3,
-        cost: 10000,
+        cost: 5000,
         purchased(data) {
             return data.tolerance >= 3
         },
@@ -92,7 +92,7 @@ const upgrades = <upgrade[]>[
         name: 'Tab',
         description: 'Môžeš používať Tab namiesto 4 medzier',
         id: 4,
-        cost: 2000,
+        cost: 500,
         purchased(data) {
             return data.useTab;
         },
@@ -108,7 +108,7 @@ const upgrades = <upgrade[]>[
         name: 'Vizuálne efekty',
         description: 'Pozadie bude blikať do rytmu, čiže budeš vidieť, kedy stlačiť kláves',
         id: 11,
-        cost: 1000,
+        cost: 250,
         purchased(data) {
             return data.visualizer >= 1;
         },
@@ -121,7 +121,7 @@ const upgrades = <upgrade[]>[
         name: 'Visualizér',
         description: 'Lepšie uvidíš, presne kedy treba stlačiť kláves',
         id: 12,
-        cost: 1000,
+        cost: 500,
         purchased(data) {
             return data.visualizer >= 2;
         },
@@ -137,7 +137,7 @@ const upgrades = <upgrade[]>[
         name: 'Indikátor úspešných stlačení',
         description: 'budeš lepšie vidieť kedy sa ti napísal znak a kedy nie',
         id: 13,
-        cost: 1000,
+        cost: 250,
         purchased(data) {
             return data.successFeedback;
         },
@@ -161,7 +161,7 @@ const upgrades = <upgrade[]>[
         name: 'Slúchadlá',
         description: 'Máš povolenie si zobrať vlastné slúchadlá',
         id: 21,
-        cost: 1000,
+        cost: 250,
         purchased(data) {
             return data.headphones;
         },
@@ -174,7 +174,7 @@ const upgrades = <upgrade[]>[
         name: 'Loop',
         description: 'Po skončení začne pesnička znova, teda netreba stihnúť napísať kód za jednu iteráciu pesničky',
         id: 22,
-        cost: 2500,
+        cost: 1000,
         purchased(data) {
             return data.looping;
         },
@@ -190,7 +190,7 @@ const upgrades = <upgrade[]>[
         name: 'Multi submit',
         description: 'Po submite sa ti kód nezmaže, a v prípade nesprávneho submitu môžeš v programovaní pokračovať',
         id: 23,
-        cost: 2500,
+        cost: 1000,
         purchased(data) {
             return data.multiSubmit;
         },
