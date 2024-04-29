@@ -29,7 +29,7 @@ router.get('/', (req, res) => {
 })
 
 router.post('/buy/:id', async (req, res)=> {
-    const user = req.session.user
+    let user = await db.getUser(req.session.user?.id || -1) || undefined
     if(user == undefined){
         res.status(400)
         res.send('Invalid session')

@@ -5,7 +5,8 @@ import loginRouter from './login'
 import editorRouter from './editor'
 import shopRouter from './shop'
 import coinRouter from './coins'
-import { User } from './db'
+import { User, db } from './db'
+import RedisStore from "connect-redis"
 
 const app = express()
 app.set('view engine', 'ejs')
@@ -14,6 +15,9 @@ app.use(express.json())
 app.use(express.urlencoded())
 
 app.use(session({
+    store: new RedisStore({
+        client: db.client,
+    }),
     secret: 'secret editor',
     unset: 'destroy',
     saveUninitialized: true,
