@@ -297,8 +297,7 @@ async function submit() {
     submitBtn.disabled = false
     document.getElementById('submiting').classList.add('d-none')
     document.getElementById(data.status).classList.remove('d-none')
-    // multi-submit budes vediet submitnut viackrat
-    stop();
+    if(!upgrades.multiSubmit) stop();
 }
 
 
