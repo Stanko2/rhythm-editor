@@ -141,6 +141,9 @@ function blink() {
 
 let playing  = false
 let player
+let presses = [];
+let click = new Audio('/click.mp3')
+
 function play() {
     if(playing) return
     playing = true
@@ -152,22 +155,21 @@ function play() {
     player = new Player({
         bpm: levelData.bpm,
         firstOffset: levelData.firstOffset,
-        link: levelData.song
+        link: levelData.song,
+        beats: levelData.beats
     })
     if(upgrades.visualizer >= 2) visualizer()
 
     player.addEventListener('beat', ()=> {
-        // (new Audio('/click.mp3')).play()
+        click.play()
         blink()
     })
     let lastBeatPressed = -1
     hljs.safeMode(false)
     document.onkeydown = (e) => {
         e.preventDefault()
-        const pos = player.getPositionInBeats()
-        const currBeat = Math.round(pos)
-        
-        const offset = pos - currBeat
+        const time = audioCtx.currentTime - player.startTime
+        const offset = player.getAccuracy(time)
         console.log(offset);
         const s = mapKeyPressToActualCharacter(e.shiftKey, e.keyCode);
         ShowScore(Math.abs(offset))
@@ -175,17 +177,17 @@ function play() {
             programText = programText.slice(0, -1)
         } else {
             if(s === false || s == undefined) return
-            if(GetHitAccuracy(Math.abs(offset)) <= upgrades.tolerance && lastBeatPressed != currBeat) {
+            if(GetHitAccuracy(Math.abs(offset)) <= upgrades.tolerance && lastBeatPressed != player.currBeat) {
                 if(s === '\t' && !upgrades.useTab)
                     return
                 programText += s
-                lastBeatPressed = currBeat
+                lastBeatPressed = player.currBeat
                 splash(e)
             } else {
                 if(upgrades.deleteOnMiss) programText = programText.slice(0, -1)
             }
         }
-        
+
         program.innerHTML = escapeHtml(programText)
         delete program.dataset.highlighted
         hljs.highlightElement(program);
@@ -273,7 +275,7 @@ function stop() {
     player = null
     programText = ''
 
-    document.onkeydown = () => {}   
+    document.onkeydown = () => {}
 }
 
 async function submit() {
@@ -341,50 +343,87 @@ function visualizer() {
         lastTime = time
         if(playing)
             requestAnimationFrame(render)
-        else 
+        else
             vis.replaceChildren();
     }
 
-    player.addEventListener('beat', createBeatDiv)
+    player.addEventListener('beat', ()=>{
+        createBeatDiv()
+    })
 }
 
-class Player extends EventTarget {
-    getPositionInBeats() {
-        // const songStart = this.start + this.song.firstOffset * 1000
-        const currentPosition = this.audio.currentTime - this.song.firstOffset
-        return currentPosition / (60 / this.song.bpm) - 0.5
-    }
+let audioCtx = new AudioContext();
 
+class Player extends EventTarget {
     constructor(song) {
         super();
+        this.playing = false;
         this.song = song
-        this.start = performance.now()
+        this.beats = this.song.beats
         this.firstOffset = song.firstOffset
-        this.audio = new Audio(song.link)
-        this.audio.onended = () => {
-            if(upgrades.looping){
-                this.stop()
-                this.play()
-            }else{
-                stop()
-            }
-        }
         this.play()
     }
 
-    stop() {
-        this.audio.pause()
-        this.audio.currentTime = 0
-        if(this.beatInterval)
-            clearInterval(this.beatInterval)
+    findNearestBeat(time) {
+        let nearest = this.beats[0];
+        let minDiff = Math.abs(time - nearest);
+
+        for (const beat of this.beats) {
+            const diff = Math.abs(time - beat);
+            if (diff < minDiff) {
+                minDiff = diff;
+                nearest = beat;
+            }
+        }
+        return nearest;
     }
 
-    play() {
-        this.audio.play()
-        setTimeout(() => {
-            this.beatInterval = setInterval(()=> {
-                this.dispatchEvent(new CustomEvent('beat'))
-            }, 60 / this.song.bpm * 1000)
-        }, this.song.firstOffset)
+    getAccuracy(time) {
+        const beat = this.findNearestBeat(time)
+        const beatTime = 60 / this.song.bpm
+        return Math.abs(beat - time) / beatTime - 0.5
+    }
+
+
+    async fetchAll() {
+        const songRes = await fetch(this.song.link);
+        const data =await songRes.arrayBuffer()
+        console.log(data)
+        return new Promise((resolve)=>{
+            audioCtx.decodeAudioData(data, (buffer)=>{
+                console.log("loaded")
+                this.sourceNode = audioCtx.createBufferSource()
+                this.sourceNode.buffer = buffer
+                this.sourceNode.connect(audioCtx.destination)
+                this.startTime = audioCtx.currentTime
+
+                this.sourceNode.start(0)
+                resolve()
+            })
+        })
+    }
+
+    stop() {
+        this.sourceNode.stop()
+        clearTimeout(this.beatTimeout)
+        this.playing = false;
+    }
+
+    async play() {
+        await this.fetchAll()
+        this.currBeat = 0
+        console.log(this.song)
+        this.beatTimeout = setTimeout(this.fireBeat.bind(this), this.beats[0] * 1000)
+
+    }
+
+    fireBeat() {
+        console.log('beat')
+        this.dispatchEvent(new CustomEvent('beat'))
+        this.currBeat++;
+        if (this.currBeat == this.beats.length)
+            return;
+        const time = audioCtx.currentTime - this.startTime
+        this.beatTimeout = setTimeout(this.fireBeat.bind(this), (this.beats[this.currBeat] - time) * 1000)
     }
 }

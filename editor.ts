@@ -16,6 +16,7 @@ export interface Level {
     zadanie: string
     name: string
     order: number
+    beats: number[]
 }
 
 const levels: Record<string, Level> = {}
@@ -38,7 +39,7 @@ router.get('/:lid', async (req, res) => {
     }
     req.session.user = await db.getUser(req.session.user.id) || undefined;
     renderView(res, 'editor', {
-        user: req.session.user, 
+        user: req.session.user,
         levels: Object.keys(levels).map((e, i)=> {
             return {
                 id: e,
@@ -71,7 +72,7 @@ router.post('/:lid/submit', async (req, res) => {
         return
     }
     const output = await test(req.body.program, user.name, levels[lid])
-    
+
     if(output.status == 'OK'){
         user.completedLevels.push(lid)
         await db.setUser(user);
@@ -85,13 +86,14 @@ async function loadLevels() {
     const keys = await readdir(p)
     for (const level of keys) {
         levels[level] = JSON.parse(await readFile(path.join(p, level, 'data.json'), 'utf-8'))
+        levels[level].beats = JSON.parse(await readFile(path.join(p, level, 'beats.json'), 'utf-8'))
         zadania[level] = await readFile(path.join(p, level, 'index.html'), 'utf-8')
         levels[level].zadanie = zadania[level]
         levels[level].id = level
     }
 
     console.log(`Loaded ${Object.keys(levels).length} levels`);
-    
+
 }
 
 loadLevels()

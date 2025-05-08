@@ -1,6 +1,6 @@
 {
-    "bpm": 126.11,
-    "firstOffset": 0.355,
+    "bpm": 127,
+    "firstOffset": 0.1052903225806483,
     "song": "/ham-ham-stajl.mp3",
     "tests": {
         "1.in": "1.out",
@@ -8,4 +8,4 @@
     },
     "name": "Ham Ham",
     "order": 2
-}   
+}
