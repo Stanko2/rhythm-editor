@@ -19,102 +19,18 @@ const escapeHtml = (unsafe) => {
     return unsafe.replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;').replaceAll("'", '&#039;');
 }
 
-function mapKeyPressToActualCharacter(isShiftKey, characterCode) {
-    if (characterCode === 13){
-        return "\n"
-    }
+function mapKeyPressToActualCharacter(event) {
+    const key = event.key;
 
-    if ( characterCode === 27 || characterCode === 8 || characterCode === 20 || characterCode === 16 || characterCode === 17 || characterCode === 91 || characterCode === 92 || characterCode === 18 ) {
-        return false;
-    }
-    if (typeof isShiftKey != "boolean" || typeof characterCode != "number") {
-        return false;
-    }
-    var characterMap = [];
-    characterMap[192] = "~";
-    characterMap[49] = "!";
-    characterMap[50] = "@";
-    characterMap[51] = "#";
-    characterMap[52] = "$";
-    characterMap[53] = "%";
-    characterMap[54] = "^";
-    characterMap[55] = "&";
-    characterMap[56] = "*";
-    characterMap[57] = "(";
-    characterMap[48] = ")";
-    characterMap[109] = "_";
-    characterMap[107] = "+";
-    characterMap[219] = "{";
-    characterMap[221] = "}";
-    characterMap[220] = "|";
-    characterMap[59] = ":";
-    characterMap[222] = "\"";
-    characterMap[186] = ":";
-    characterMap[187] = "+";
-    characterMap[188] = "<";
-    characterMap[189] = "_";
-    characterMap[190] = ">";
-    characterMap[191] = "?";
-    characterMap[32] = " ";
+    // Filter out non-pr<intable control keys
+    const ignoredKeys = ["Shift", "Control", "Alt", "Meta", "CapsLock", "Escape"];
+    if (ignoredKeys.includes(key)) return false;
 
-    var character = "";
-    if (isShiftKey) {
-        if ( characterCode >= 65 && characterCode <= 90 ) {
-            character = String.fromCharCode(characterCode);
-        } else {
-            character = characterMap[characterCode];
-        }
-    } else {
-        if ( characterCode >= 65 && characterCode <= 90 ) {
-            character = String.fromCharCode(characterCode).toLowerCase();
-        } else {
-            switch (characterCode) {
-                case 13:
-                    character = '\n'
-                    break
-                case 9:
-                    character = '\t'
-                    break
-                case 186:
-                    character = ';'
-                    break
-                case 187:
-                    character = '='
-                    break
-                case 188:
-                    character = ','
-                    break
-                case 189:
-                    character = '-'
-                    break
-                case 190:
-                    character = '.'
-                    break
-                case 191:
-                    character = '/'
-                    break
-                case 192:
-                    character = '`'
-                    break
-                case 219:
-                    character = '['
-                    break
-                case 220:
-                    character = '\\'
-                    break
-                case 221:
-                    character = ']'
-                    break
-                case 222:
-                    character = '\''
-                    break
-                default:
-                    character = String.fromCharCode(characterCode);
-                    break
-            }
-        }
-    }
-    return character;
+    // Newline for Enter
+    if (key === "Enter") return "\n";
+    if (key === "Tab") return "    ";
+
+    return key;
 }
 
 function blink() {
@@ -161,7 +77,7 @@ function play() {
     if(upgrades.visualizer >= 2) visualizer()
 
     player.addEventListener('beat', ()=> {
-        click.play()
+        // click.play()
         blink()
     })
     let lastBeatPressed = -1
@@ -171,7 +87,7 @@ function play() {
         const time = audioCtx.currentTime - player.startTime
         const offset = player.getAccuracy(time)
         console.log(offset);
-        const s = mapKeyPressToActualCharacter(e.shiftKey, e.keyCode);
+        const s = mapKeyPressToActualCharacter(e);
         ShowScore(Math.abs(offset))
         if(e.key == 'Backspace'){
             programText = programText.slice(0, -1)
@@ -381,7 +297,7 @@ class Player extends EventTarget {
     getAccuracy(time) {
         const beat = this.findNearestBeat(time)
         const beatTime = 60 / this.song.bpm
-        return Math.abs(beat - time) / beatTime - 0.5
+        return Math.abs(beat - time) / beatTime
     }
 
 
