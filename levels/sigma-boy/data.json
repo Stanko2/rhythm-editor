@@ -1,0 +1,10 @@
+{
+    "bpm": 170.2417432754511,
+    "firstOffset": 0.3457362637362713,
+    "song": "/sigma-boy.mp3",
+    "tests": {
+        "1.in": "1.out"
+    },
+    "name": "Sigma chlapec",
+    "order": 1
+}
