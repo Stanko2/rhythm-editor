@@ -52,10 +52,11 @@ async function testInput(program: string, input: string, output: string): Promis
                 status: 'EXC'
             })
         })
-        const expectedOutput = await fs.readFile(output, 'utf-8')
+        const expectedOutput = (await fs.readFile(output, 'utf-8')).replace("\r", "")
         p.on('exit', () => {
             clearTimeout(timeout)
             if(out != expectedOutput) {
+                console.log({out, expectedOutput})
                 resolve({
                     status: 'WA'
                 })
