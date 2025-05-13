@@ -28,9 +28,9 @@ function mapKeyPressToActualCharacter(event) {
 
     // Newline for Enter
     if (key === "Enter") return "\n";
-    if (key === "Tab") return "    ";
+    if (key === "Tab") return "\t";
 
-    return key;
+    return key.length === 1 ? key : false;
 }
 
 function blink() {
@@ -93,11 +93,12 @@ function play() {
             programText = programText.slice(0, -1)
         } else {
             if(s === false || s == undefined) return
-            if(GetHitAccuracy(Math.abs(offset)) <= upgrades.tolerance && lastBeatPressed != player.currBeat) {
+            const currBeat = player.findNearestBeat(time)
+            if(GetHitAccuracy(Math.abs(offset)) <= upgrades.tolerance && lastBeatPressed != currBeat) {
                 if(s === '\t' && !upgrades.useTab)
                     return
                 programText += s
-                lastBeatPressed = player.currBeat
+                lastBeatPressed = currBeat
                 splash(e)
             } else {
                 if(upgrades.deleteOnMiss) programText = programText.slice(0, -1)
@@ -126,10 +127,10 @@ function GetHitAccuracy(offset) {
         '0.25': {
             tier: 1
         },
-        '0.35': {
+        '0.45': {
             tier: 2
         },
-        '0.5': {
+        '1.0': {
             tier: 3
         }
     }
@@ -277,7 +278,9 @@ class Player extends EventTarget {
         this.song = song
         this.beats = this.song.beats
         this.firstOffset = song.firstOffset
-        this.play()
+        this.fetchAll().then(()=>{
+            this.play()
+        })
     }
 
     findNearestBeat(time) {
@@ -303,8 +306,7 @@ class Player extends EventTarget {
 
     async fetchAll() {
         const songRes = await fetch(this.song.link);
-        const data =await songRes.arrayBuffer()
-        console.log(data)
+        const data = await songRes.arrayBuffer()
         return new Promise((resolve)=>{
             audioCtx.decodeAudioData(data, (buffer)=>{
                 console.log("loaded")
@@ -312,8 +314,7 @@ class Player extends EventTarget {
                 this.sourceNode.buffer = buffer
                 this.sourceNode.connect(audioCtx.destination)
                 this.startTime = audioCtx.currentTime
-
-                this.sourceNode.start(0)
+                this.beats.push(buffer.duration)
                 resolve()
             })
         })
@@ -322,23 +323,30 @@ class Player extends EventTarget {
     stop() {
         this.sourceNode.stop()
         clearTimeout(this.beatTimeout)
+        clearInterval(this.loopInterval)
         this.playing = false;
     }
 
     async play() {
-        await this.fetchAll()
         this.currBeat = 0
+        this.sourceNode.start(0)
         console.log(this.song)
         this.beatTimeout = setTimeout(this.fireBeat.bind(this), this.beats[0] * 1000)
-
     }
 
     fireBeat() {
-        console.log('beat')
         this.dispatchEvent(new CustomEvent('beat'))
         this.currBeat++;
-        if (this.currBeat == this.beats.length)
+        if (this.currBeat == this.beats.length) {
+            if (!upgrades.looping){
+                setTimeout(stop, 100)
+            } else {
+                this.fetchAll().then(()=>{
+                    this.play()
+                })
+            }
             return;
+        }
         const time = audioCtx.currentTime - this.startTime
         this.beatTimeout = setTimeout(this.fireBeat.bind(this), (this.beats[this.currBeat] - time) * 1000)
     }
