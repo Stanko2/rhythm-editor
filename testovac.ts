@@ -17,6 +17,7 @@ export async function test(submit: string, user: string, level: Level): Promise<
     }
     const programPath = path.join(levelPath, 'submits', user + '.py')
     fs.writeFile(programPath, submit);
+    console.log(programPath);
 
     let out: TestOutput
     const vstupy = path.join(levelPath, 'vstupy')
